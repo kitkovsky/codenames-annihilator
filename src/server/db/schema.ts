@@ -1,3 +1,4 @@
+import { sql } from 'drizzle-orm'
 import { text, integer, sqliteTable } from 'drizzle-orm/sqlite-core'
 
 export const users = sqliteTable('users', {
@@ -11,7 +12,9 @@ export const prompts = sqliteTable('prompts', {
     .references(() => users.id)
     .notNull(),
   prompt: text('prompt').notNull(),
-  createdAt: integer('created_at', { mode: 'timestamp' }).notNull(),
+  createdAt: text('created_at')
+    .default(sql`datetime('now')`)
+    .notNull(),
 })
 
 export const connectors = sqliteTable('connectors', {
@@ -21,5 +24,7 @@ export const connectors = sqliteTable('connectors', {
     .notNull()
     .unique(),
   connectors: text('connectors').notNull(),
-  createdAt: integer('created_at', { mode: 'timestamp' }).notNull(),
+  createdAt: text('created_at')
+    .default(sql`datetime('now')`)
+    .notNull(),
 })
