@@ -1,10 +1,11 @@
 import type { Metadata } from 'next'
 import { GeistSans } from 'geist/font/sans'
 import cn from 'classnames'
-import './globals.css'
+import '@/styles/globals.css'
 
 export const metadata: Metadata = {
   title: 'Codenames Annihilator',
+  icons: [{ rel: 'icon', url: '/favicon.svg' }],
 }
 
 export default function RootLayout({ children }: { children: JSX.Element }) {
