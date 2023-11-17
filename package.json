@@ -6,9 +6,14 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "db:push": "drizzle-kit push:sqlite"
   },
   "dependencies": {
+    "@libsql/client": "^0.3.6",
+    "classnames": "^2.3.2",
+    "drizzle-orm": "^0.29.0",
+    "geist": "^1.1.0",
     "next": "14.0.2",
     "react": "^18",
     "react-dom": "^18"
@@ -21,6 +26,7 @@
     "@typescript-eslint/eslint-plugin": "^6.11.0",
     "@typescript-eslint/parser": "^6.11.0",
     "autoprefixer": "^10.0.1",
+    "drizzle-kit": "^0.20.2",
     "eslint": "^8",
     "eslint-config-next": "14.0.2",
     "postcss": "^8",
