@@ -9,5 +9,5 @@ export default {
     authToken: env.DB_AUTH_TOKEN,
   },
   verbose: true,
-  strict: true,
+  strict: env.NODE_ENV === 'development',
 } satisfies Config
