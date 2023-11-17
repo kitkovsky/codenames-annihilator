@@ -57,6 +57,9 @@ jobs:
           PREVIEW_URL=$(<URL)
           echo "PREVIEW_URL=$PREVIEW_URL" >> "$GITHUB_OUTPUT"
 
+      - name: Update DB schema
+        run: pnpm db:push
+
       - name: Create comment with preview URL
         uses: mshick/add-pr-comment@v2
         env:
