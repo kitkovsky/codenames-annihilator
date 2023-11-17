@@ -1,9 +1,12 @@
 import { sql } from 'drizzle-orm'
 import { text, integer, sqliteTable } from 'drizzle-orm/sqlite-core'
 
+const defaultCreatedAt = sql`(strftime('%Y-%m-%d %H:%M:%S', 'now'))`
+
 export const users = sqliteTable('users', {
   id: integer('id').primaryKey(),
   name: text('name').notNull(),
+  createdAt: text('created_at').default(defaultCreatedAt).notNull(),
 })
 
 export const prompts = sqliteTable('prompts', {
@@ -12,9 +15,7 @@ export const prompts = sqliteTable('prompts', {
     .references(() => users.id)
     .notNull(),
   prompt: text('prompt').notNull(),
-  createdAt: text('created_at')
-    .default(sql`datetime('now')`)
-    .notNull(),
+  createdAt: text('created_at').default(defaultCreatedAt).notNull(),
 })
 
 export const connectors = sqliteTable('connectors', {
@@ -24,7 +25,5 @@ export const connectors = sqliteTable('connectors', {
     .notNull()
     .unique(),
   connectors: text('connectors').notNull(),
-  createdAt: text('created_at')
-    .default(sql`datetime('now')`)
-    .notNull(),
+  createdAt: text('created_at').default(defaultCreatedAt).notNull(),
 })
