@@ -1,5 +1,5 @@
 import { sql } from 'drizzle-orm'
-import { text, integer, sqliteTable } from 'drizzle-orm/sqlite-core'
+import { text, integer, sqliteTable, index } from 'drizzle-orm/sqlite-core'
 
 const defaultCreatedAt = sql`(strftime('%Y-%m-%d %H:%M:%S', 'now'))`
 
@@ -9,14 +9,22 @@ export const users = sqliteTable('users', {
   createdAt: text('created_at').default(defaultCreatedAt).notNull(),
 })
 
-export const prompts = sqliteTable('prompts', {
-  id: integer('id').primaryKey(),
-  userId: integer('author_id')
-    .references(() => users.id)
-    .notNull(),
-  prompt: text('prompt').notNull(),
-  createdAt: text('created_at').default(defaultCreatedAt).notNull(),
-})
+export const prompts = sqliteTable(
+  'prompts',
+  {
+    id: integer('id').primaryKey(),
+    authorId: integer('author_id')
+      .references(() => users.id)
+      .notNull(),
+    prompt: text('prompt').notNull(),
+    createdAt: text('created_at').default(defaultCreatedAt).notNull(),
+  },
+  (table) => {
+    return {
+      authorIdIndex: index('author_id_index').on(table.authorId),
+    }
+  },
+)
 
 export const connectors = sqliteTable('connectors', {
   id: integer('id').primaryKey(),
