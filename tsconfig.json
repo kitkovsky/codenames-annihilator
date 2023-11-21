@@ -36,6 +36,7 @@
     ],
     "paths": {
       "@components/*": ["./src/app/_components/*"],
+      "@utils/*": ["./src/app/_utils/*"],
       "@/*": ["./src/*"],
       "~/*": ["./*"]
     }

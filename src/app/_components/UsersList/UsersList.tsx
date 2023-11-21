@@ -3,7 +3,7 @@
 import type { FormEvent } from 'react'
 
 import { trpc } from '@/trpc/client'
-import { isEmpty } from '@/app/_utils/array.utils'
+import { isEmpty } from '@utils/array.utils'
 
 export const UsersList = (): React.ReactNode => {
   const { isLoading, error, data: users, refetch } = trpc.getUsers.useQuery()

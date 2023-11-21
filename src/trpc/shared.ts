@@ -1,4 +1,4 @@
-import { isClientSide } from '@/app/_utils/flags.utils'
+import { isClientSide } from '@utils/flags.utils'
 
 export const getBaseUrl = (): string => {
   if (isClientSide) return ''
