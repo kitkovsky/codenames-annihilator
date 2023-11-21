@@ -6,7 +6,7 @@ export interface LinkProps extends NextLinkProps, PropsWithChildren {
   className?: string
 }
 
-export const Link = (props: LinkProps): JSX.Element => {
+export const Link = (props: LinkProps): React.ReactNode => {
   const { className, children, ...rest } = props
 
   return (

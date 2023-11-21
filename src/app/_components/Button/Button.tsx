@@ -8,7 +8,7 @@ export interface ButtonProps
   className?: string
 }
 
-export const Button = (props: ButtonProps): JSX.Element => {
+export const Button = (props: ButtonProps): React.ReactNode => {
   const { children, className, ...rest } = props
 
   return (
