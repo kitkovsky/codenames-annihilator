@@ -26,6 +26,7 @@
     "zod": "^3.22.4"
   },
   "devDependencies": {
+    "@tanstack/react-query-devtools": "^5.8.4",
     "@types/eslint": "^8.44.7",
     "@types/node": "^20",
     "@types/react": "^18",
