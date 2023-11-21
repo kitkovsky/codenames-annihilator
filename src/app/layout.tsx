@@ -1,6 +1,8 @@
 import type { Metadata } from 'next'
 import { GeistSans } from 'geist/font/sans'
 import cn from 'classnames'
+
+import { TRPCReactProvider } from '@/trpc/Provider'
 import '@/styles/globals.css'
 
 export const metadata: Metadata = {
@@ -14,10 +16,10 @@ export default function RootLayout({ children }: { children: JSX.Element }) {
       <body
         className={cn(
           GeistSans.variable,
-          'mx-auto h-full max-h-screen w-screen max-w-screen-2xl bg-black px-4 font-sans md:px-6 lg:px-8',
+          'mx-auto h-full max-h-screen w-screen max-w-screen-2xl bg-black px-4 font-sans text-white md:px-6 lg:px-8',
         )}
       >
-        {children}
+        <TRPCReactProvider>{children}</TRPCReactProvider>
       </body>
     </html>
   )

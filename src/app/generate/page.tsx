@@ -1,3 +1,9 @@
+import { UsersList } from '@components/UsersList'
+
 export default function GeneratePage() {
-  return <div>generate something</div>
+  return (
+    <div>
+      <UsersList />
+    </div>
+  )
 }
