@@ -11,6 +11,7 @@ services:
     volumes:
       - ./src:/app/src
       - ./public:/app/public
+      - ./sqlite.db:/app/sqlite.db
     restart: always
     ports:
       - 3000:3000
