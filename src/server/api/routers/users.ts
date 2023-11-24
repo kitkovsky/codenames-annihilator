@@ -5,7 +5,7 @@ import { createTRPCRouter, publicProcedure } from '@/server/api/trpc'
 import { db } from '@/server/db'
 import { users } from '@/server/db/schema'
 
-export const appRouter = createTRPCRouter({
+export const usersRouter = createTRPCRouter({
   getUsers: publicProcedure.query(() => {
     return db.query.users.findMany()
   }),
@@ -20,5 +20,3 @@ export const appRouter = createTRPCRouter({
       await db.delete(users).where(eq(users.id, input.id))
     }),
 })
-
-export type AppRouter = typeof appRouter

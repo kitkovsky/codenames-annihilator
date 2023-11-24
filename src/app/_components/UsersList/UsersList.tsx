@@ -6,9 +6,9 @@ import { trpc } from '@/trpc/client'
 import { isEmpty } from '@utils/array.utils'
 
 export const UsersList = (): React.ReactNode => {
-  const { isLoading, error, data: users, refetch } = trpc.getUsers.useQuery()
-  const addUser = trpc.addUser.useMutation({ onSettled: () => refetch() })
-  const deleteUser = trpc.deleteUser.useMutation({ onSettled: () => refetch() })
+  const { isLoading, error, data: users, refetch } = trpc.users.getUsers.useQuery()
+  const addUser = trpc.users.addUser.useMutation({ onSettled: () => refetch() })
+  const deleteUser = trpc.users.deleteUser.useMutation({ onSettled: () => refetch() })
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>): void => {
     e.preventDefault()
