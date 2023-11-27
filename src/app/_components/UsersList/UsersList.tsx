@@ -1,41 +1,23 @@
-'use client'
-
-import type { FormEvent } from 'react'
-
-import { trpc } from '@/trpc/client'
+import { api } from '@/trpc/server'
 import { isEmpty } from '@utils/array.utils'
 
-export const UsersList = (): React.ReactNode => {
-  const { isLoading, error, data: users, refetch } = trpc.users.getUsers.useQuery()
-  const addUser = trpc.users.addUser.useMutation({ onSettled: () => refetch() })
-  const deleteUser = trpc.users.deleteUser.useMutation({ onSettled: () => refetch() })
-
-  const handleSubmit = (e: FormEvent<HTMLFormElement>): void => {
-    e.preventDefault()
-
-    //@ts-expect-error ignore
-    addUser.mutate({ name: e.currentTarget[0].value as string })
-  }
-
-  if (isLoading) return <div>Loading...</div>
-
-  if (error) return <div>Error: {error.message}</div>
+export const UsersList = async () => {
+  const users = await api.users.getAll.query()
 
   return (
     <div>
-      {isEmpty(users) && <div>No users</div>}
+      {isEmpty(users) && <h1>no users</h1>}
 
       {users.map((user) => (
-        <div className="flex gap-4" key={user.id}>
-          <h1 key={user.id}>{user.name}</h1>
-          <button onClick={() => deleteUser.mutate({ id: user.id })}>x</button>
+        <div className="flex gap-3" key={user.id}>
+          <h1>{user.name}</h1>
+          <h2>
+            {new Date(user.createdAt).toLocaleString('pl-PL', {
+              timeZone: 'UTC',
+            })}
+          </h2>
         </div>
       ))}
-
-      <form action="" onSubmit={handleSubmit}>
-        <input type="text" className="text-black" />
-        <button>add user</button>
-      </form>
     </div>
   )
 }

@@ -1,9 +1,11 @@
+import { Suspense } from 'react'
+
 import { UsersList } from '@components/UsersList'
 
 export default function GeneratePage() {
   return (
-    <div>
+    <Suspense fallback={<h1>loading...</h1>}>
       <UsersList />
-    </div>
+    </Suspense>
   )
 }
