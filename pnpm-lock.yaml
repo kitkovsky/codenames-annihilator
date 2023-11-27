@@ -49,6 +49,9 @@ dependencies:
     version: 3.22.4
 
 devDependencies:
+  '@next/eslint-plugin-next':
+    specifier: ^14.0.3
+    version: 14.0.3
   '@tanstack/react-query-devtools':
     specifier: ^5.8.4
     version: 5.8.4(@tanstack/react-query@4.36.1)(react-dom@18.2.0)(react@18.2.0)
@@ -1002,6 +1005,12 @@ packages:
 
   /@next/eslint-plugin-next@14.0.2:
     resolution: {integrity: sha512-APrYFsXfAhnysycqxHcpg6Y4i7Ukp30GzVSZQRKT3OczbzkqGjt33vNhScmgoOXYBU1CfkwgtXmNxdiwv1jKmg==}
+    dependencies:
+      glob: 7.1.7
+    dev: true
+
+  /@next/eslint-plugin-next@14.0.3:
+    resolution: {integrity: sha512-j4K0n+DcmQYCVnSAM+UByTVfIHnYQy2ODozfQP+4RdwtRDfobrIvKq1K4Exb2koJ79HSSa7s6B2SA8T/1YR3RA==}
     dependencies:
       glob: 7.1.7
     dev: true

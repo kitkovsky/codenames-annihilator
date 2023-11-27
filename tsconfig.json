@@ -44,10 +44,10 @@
   "include": [
     ".eslintrc.cjs",
     "next-env.d.ts",
-    "next.config.js",
     "**/*.ts",
     "**/*.tsx",
-    "**/*.mjs",
+    "**/*.js",
+    "**/*.cjs",
     ".next/types/**/*.ts"
   ],
   "exclude": ["node_modules"]
