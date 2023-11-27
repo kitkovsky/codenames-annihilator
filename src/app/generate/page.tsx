@@ -1,6 +1,6 @@
 import { Suspense } from 'react'
 
-import { UsersList } from '@components/UsersList'
+import { UsersList } from '@components/users-list'
 
 export default function GeneratePage() {
   return (
