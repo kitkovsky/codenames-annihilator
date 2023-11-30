@@ -1,8 +1,8 @@
-import { api } from '@/trpc/server'
+import { db } from '@/server/db'
 import { isEmpty } from '@utils/array.utils'
 
 export const UsersList = async () => {
-  const users = await api.users.getAll.query()
+  const users = await db.query.users.findMany()
 
   return (
     <div>
