@@ -1,3 +1,4 @@
+import { AuthButton } from '@components/AuthButton'
 import { Link } from '@components/link'
 
 export default function Home() {
@@ -8,6 +9,8 @@ export default function Home() {
       <Link href="/generate" className="text-3xl">
         generate me some codenames
       </Link>
+
+      <AuthButton />
     </main>
   )
 }

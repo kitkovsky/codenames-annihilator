@@ -11,11 +11,6 @@ export const UsersList = async () => {
       {users.map((user) => (
         <div className="flex gap-3" key={user.id}>
           <h1>{user.name}</h1>
-          <h2>
-            {new Date(user.createdAt).toLocaleString('pl-PL', {
-              timeZone: 'UTC',
-            })}
-          </h2>
         </div>
       ))}
     </div>
