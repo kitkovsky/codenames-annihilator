@@ -44,6 +44,7 @@ export const users = sqliteTable('user', {
   emailVerified: integer('emailVerified', { mode: 'timestamp_ms' }),
   image: text('image'),
   createdAt: text('created_at').default(defaultCreatedAt).notNull(),
+  age: integer('age'),
 })
 
 export const accounts = sqliteTable(
