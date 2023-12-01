@@ -4,7 +4,6 @@ WORKDIR /app
 
 COPY . .
 
-RUN rm -rf node_modules \
-    && yarn global add pnpm && pnpm i
+RUN yarn global add pnpm && pnpm i
 
 CMD pnpm dev

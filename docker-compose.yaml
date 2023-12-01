@@ -2,6 +2,7 @@ version: '3'
 
 services:
   next-app:
+    image: codenames-annihilator
     container_name: next
     build:
       dockerfile: Dockerfile
