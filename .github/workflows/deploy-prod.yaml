@@ -33,6 +33,9 @@ jobs:
         with:
           version: 8
 
+      - name: Install dependencies
+        run: pnpm install
+
       - name: Install vercel CLI
         run: pnpm install --global vercel@latest
 
