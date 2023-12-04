@@ -15,7 +15,7 @@ export const Button = (props: ButtonProps): React.ReactNode => {
     <button
       className={cn(
         className,
-        'bg-gray80 hover:text-gray60 rounded-lg px-4 py-2 text-white transition-colors hover:bg-white',
+        'bg-gray80 rounded-lg px-4 py-2 text-white transition-colors hover:bg-white hover:text-black',
       )}
       {...rest}
     >
