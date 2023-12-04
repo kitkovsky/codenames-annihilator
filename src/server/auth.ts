@@ -2,23 +2,45 @@ import { getServerSession, type NextAuthOptions } from 'next-auth'
 import { DrizzleAdapter } from '@auth/drizzle-adapter'
 import GoogleProvider from 'next-auth/providers/google'
 import GithubProvider from 'next-auth/providers/github'
+import { eq, and } from 'drizzle-orm'
 
 import { env } from '@/env'
 import { db } from '@/server/db'
+import { accounts, users } from '@/server/db/schema'
+import type { Adapter } from 'next-auth/adapters'
+
+// next-auth drizzle adapter doesn't support async sqlite clients (like turso's libsql),
+// which caused errors on consecutive logins, so this is a workaround
+// https://github.com/nextauthjs/next-auth/issues/8377#issuecomment-1694720111
+const AsyncDrizzleAdapter: Adapter = {
+  ...DrizzleAdapter(db),
+  async getUserByAccount(providerAccountId) {
+    const results = await db
+      .select()
+      .from(accounts)
+      .leftJoin(users, eq(users.id, accounts.userId))
+      .where(
+        and(
+          eq(accounts.provider, providerAccountId.provider),
+          eq(accounts.providerAccountId, providerAccountId.providerAccountId),
+        ),
+      )
+      .get()
+
+    return results?.user ?? null
+  },
+}
 
 export const authOptions: NextAuthOptions = {
-  adapter: DrizzleAdapter(db),
+  adapter: AsyncDrizzleAdapter,
   providers: [
     GoogleProvider({
       clientId: env.OAUTH_GOOGLE_CLIENT_ID,
       clientSecret: env.OAUTH_GOOGLE_CLIENT_SECRET,
-      // consecutive logins break without this flag ¯\_(ツ)_/¯
-      allowDangerousEmailAccountLinking: true,
     }),
     GithubProvider({
       clientId: env.OAUTH_GITHUB_CLIENT_ID,
       clientSecret: env.OAUTH_GITHUB_CLIENT_SECRET,
-      allowDangerousEmailAccountLinking: true,
     }),
   ],
   debug: env.NODE_ENV === 'development',
