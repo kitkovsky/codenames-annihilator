@@ -1,3 +1,4 @@
+import { relations } from 'drizzle-orm'
 import { text, integer, sqliteTable, index } from 'drizzle-orm/sqlite-core'
 
 import { prompts } from '@/server/db/schema/prompts'
@@ -12,6 +13,14 @@ export const connectors = sqliteTable('connectors', {
   createdAt: text('created_at').default(defaultCreatedAt).notNull(),
 })
 
+export const connectorsRelations = relations(connectors, ({ one, many }) => ({
+  prompt: one(prompts, {
+    fields: [connectors.promptId],
+    references: [prompts.id],
+  }),
+  connectorWords: many(connectorWords),
+}))
+
 export const connectorWords = sqliteTable(
   'connector_words',
   {
@@ -25,3 +34,10 @@ export const connectorWords = sqliteTable(
     connectorIdIndex: index('connector_id_index').on(table.connectorId),
   }),
 )
+
+export const connectorWordsRelations = relations(connectorWords, ({ one }) => ({
+  connector: one(connectors, {
+    fields: [connectorWords.connectorId],
+    references: [connectors.id],
+  }),
+}))

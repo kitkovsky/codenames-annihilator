@@ -12,3 +12,7 @@ export const users = sqliteTable('user', {
   image: text('image'),
   createdAt: text('created_at').default(defaultCreatedAt).notNull(),
 })
+
+export const usersRelations = relations(users, ({ many }) => ({
+  prompts: many(prompts),
+}))
