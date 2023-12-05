@@ -1,50 +1,7 @@
-import { sql } from 'drizzle-orm'
-import {
-  text,
-  integer,
-  sqliteTable,
-  index,
-  primaryKey,
-} from 'drizzle-orm/sqlite-core'
+import { text, integer, sqliteTable, primaryKey } from 'drizzle-orm/sqlite-core'
 import type { AdapterAccount } from '@auth/core/adapters'
 
-const defaultCreatedAt = sql`(strftime('%Y-%m-%d %H:%M:%S', 'now'))`
-
-export const prompts = sqliteTable(
-  'prompts',
-  {
-    id: integer('id').primaryKey(),
-    authorId: integer('author_id')
-      .references(() => users.id)
-      .notNull(),
-    prompt: text('prompt').notNull(),
-    createdAt: text('created_at').default(defaultCreatedAt).notNull(),
-  },
-  (table) => {
-    return {
-      authorIdIndex: index('author_id_index').on(table.authorId),
-    }
-  },
-)
-
-export const connectors = sqliteTable('connectors', {
-  id: integer('id').primaryKey(),
-  promptId: integer('prompt_id')
-    .references(() => prompts.id)
-    .notNull()
-    .unique(),
-  connectors: text('connectors').notNull(),
-  createdAt: text('created_at').default(defaultCreatedAt).notNull(),
-})
-
-export const users = sqliteTable('user', {
-  id: text('id').notNull().primaryKey(),
-  name: text('name'),
-  email: text('email').notNull(),
-  emailVerified: integer('emailVerified', { mode: 'timestamp_ms' }),
-  image: text('image'),
-  createdAt: text('created_at').default(defaultCreatedAt).notNull(),
-})
+import { users } from '@/server/db/schema/users'
 
 export const accounts = sqliteTable(
   'account',
