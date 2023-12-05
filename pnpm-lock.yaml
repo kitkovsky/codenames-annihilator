@@ -76,6 +76,9 @@ devDependencies:
   eslint-config-next:
     specifier: 14.0.2
     version: 14.0.2(eslint@8.53.0)(typescript@5.2.2)
+  eslint-plugin-drizzle:
+    specifier: ^0.2.2
+    version: 0.2.2(eslint@8.53.0)
   postcss:
     specifier: ^8
     version: 8.4.31
@@ -2326,6 +2329,14 @@ packages:
       eslint-import-resolver-typescript: 3.6.1(@typescript-eslint/parser@6.11.0)(eslint-import-resolver-node@0.3.9)(eslint-plugin-import@2.29.0)(eslint@8.53.0)
     transitivePeerDependencies:
       - supports-color
+    dev: true
+
+  /eslint-plugin-drizzle@0.2.2(eslint@8.53.0):
+    resolution: {integrity: sha512-dyGlL9iOYjSK7jpgh87jL6zZP42mLZV0xrAYv+/hMbh/4ml3oR758wnk5G3frH60rHYscIS6GYL5juSir4yELg==}
+    peerDependencies:
+      eslint: '>=8.0.0'
+    dependencies:
+      eslint: 8.53.0
     dev: true
 
   /eslint-plugin-import@2.29.0(@typescript-eslint/parser@6.11.0)(eslint-import-resolver-typescript@3.6.1)(eslint@8.53.0):
