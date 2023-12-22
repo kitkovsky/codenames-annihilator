@@ -1,4 +1,6 @@
 @tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 @layer base {
   *,
@@ -42,6 +44,3 @@
     isolation: isolate;
   }
 }
-
-@tailwind components;
-@tailwind utilities;

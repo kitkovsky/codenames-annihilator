@@ -1,6 +1,6 @@
 import NextLink from 'next/link'
 
-import { Link } from '@components/link'
+import { Link } from '@components/ui/link'
 import { AuthButton } from '@components/auth-button'
 
 export const Header = () => {
@@ -35,9 +35,13 @@ export const Header = () => {
 const Logo = () => (
   <NextLink
     href="/"
-    className="mr-12 flex flex-col font-bold transition-all hover:brightness-75"
+    className="group mr-12 flex flex-col font-bold transition-all"
   >
-    <span className="text-lg leading-none">CODENAMES</span>
-    <span className="text-2xl leading-none text-green">ANNIHILATOR</span>
+    <span className="text-lg leading-none group-hover:text-foreground/85">
+      CODENAMES
+    </span>
+    <span className="text-2xl leading-none text-primary group-hover:text-primary/85">
+      ANNIHILATOR
+    </span>
   </NextLink>
 )
