@@ -4,6 +4,6 @@ WORKDIR /app
 
 COPY . .
 
-RUN yarn global add pnpm && pnpm i
+RUN yarn global add bun && bun i
 
-CMD pnpm dev
+CMD bun dev
