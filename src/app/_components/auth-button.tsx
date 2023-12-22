@@ -2,7 +2,7 @@ import Image from 'next/image'
 import { Suspense } from 'react'
 import { UserCircleIcon } from '@heroicons/react/24/solid'
 
-import { Link } from '@components/link'
+import { Link } from '@components/ui/link'
 import { getServerAuthSession } from '@/server/auth'
 
 const _AuthButton = async () => {
@@ -18,11 +18,11 @@ const _AuthButton = async () => {
               src={user.image}
               width="48"
               height="48"
-              className="rounded-full bg-green"
+              className="rounded-full bg-primary"
               alt="user image"
             />
           )}
-          {!user.image && <UserCircleIcon className="h-12 w-12 text-green" />}
+          {!user.image && <UserCircleIcon className="h-12 w-12 text-primary" />}
         </>
       )}
 
@@ -32,7 +32,7 @@ const _AuthButton = async () => {
 }
 
 const SignInButton = () => (
-  <Link href="sign-in" type="primary">
+  <Link href="sign-in" type="default">
     Sign in
   </Link>
 )

@@ -1,8 +1,8 @@
 import type { Metadata } from 'next'
 import { GeistSans } from 'geist/font/sans'
-import cn from 'classnames'
 
 import { Header } from '@components/layout/header'
+import { cn } from '@utils/cn.utils'
 import '@/styles/globals.css'
 
 export const metadata: Metadata = {
@@ -20,7 +20,7 @@ export default function RootLayout({
       <body
         className={cn(
           GeistSans.variable,
-          'h-full min-h-screen bg-black-90 font-sans text-white',
+          'h-full min-h-screen bg-background font-sans text-foreground',
         )}
       >
         <Header />
