@@ -2,9 +2,9 @@ import type { Config } from 'tailwindcss'
 
 export const tailwindColors = {
   white: '#e2e8f0',
-  black: '#18181b',
-  gray: '#d4d4d8',
-  green: '#689d6a',
+  ['black-100']: '#0c0c0e',
+  ['black-90']: '#18181b',
+  green: '#369b6e',
 } as const
 
 const config: Config = {
@@ -14,9 +14,11 @@ const config: Config = {
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
-    colors: tailwindColors,
     fontFamily: {
       sans: ['var(--font-geist-sans)'],
+    },
+    extend: {
+      colors: tailwindColors,
     },
   },
   plugins: [],

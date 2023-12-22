@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { GeistSans } from 'geist/font/sans'
 import cn from 'classnames'
 
+import { Header } from '@components/layout/header'
 import '@/styles/globals.css'
 
 export const metadata: Metadata = {
@@ -15,13 +16,14 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
+    <html lang="en-US">
       <body
         className={cn(
           GeistSans.variable,
-          'mx-auto h-full max-h-screen w-screen max-w-screen-2xl bg-black px-4 font-sans text-white md:px-6 lg:px-8',
+          'h-full min-h-screen bg-black-90 font-sans text-white',
         )}
       >
+        <Header />
         {children}
       </body>
     </html>

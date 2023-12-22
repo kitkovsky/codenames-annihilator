@@ -3,12 +3,12 @@ import { DrizzleAdapter } from '@auth/drizzle-adapter'
 import GoogleProvider from 'next-auth/providers/google'
 import GithubProvider from 'next-auth/providers/github'
 import { eq, and } from 'drizzle-orm'
+import type { Adapter } from 'next-auth/adapters'
 
 import { env } from '@/env'
 import { db } from '@/server/db'
 import { users } from '@/server/db/schema/users'
 import { accounts } from '@/server/db/schema/auth'
-import type { Adapter } from 'next-auth/adapters'
 
 // next-auth drizzle adapter doesn't support async sqlite clients (like turso's libsql),
 // which caused errors on consecutive logins, so this is a workaround
@@ -29,6 +29,13 @@ const AsyncDrizzleAdapter: Adapter = {
       .get()
 
     return results?.user ?? null
+  },
+  async createUser(data) {
+    return await db
+      .insert(users)
+      .values({ ...data, id: crypto.randomUUID() })
+      .returning()
+      .get()
   },
 }
 
