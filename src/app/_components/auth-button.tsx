@@ -1,33 +1,24 @@
-import Image from 'next/image'
 import { Suspense } from 'react'
-import { UserCircleIcon } from '@heroicons/react/24/solid'
 
 import { Link } from '@components/ui/link'
 import { getServerAuthSession } from '@/server/auth'
+import { UserIcon } from '@components/user-icon'
 
-const _AuthButton = async () => {
+export interface _AuthButtonProps {
+  className?: string
+}
+
+const _AuthButton = async (props: _AuthButtonProps) => {
+  const { className } = props
+
   const session = await getServerAuthSession()
   const user = session?.user
 
   return (
-    <>
-      {user && (
-        <>
-          {user.image && (
-            <Image
-              src={user.image}
-              width="48"
-              height="48"
-              className="rounded-full bg-primary"
-              alt="user image"
-            />
-          )}
-          {!user.image && <UserCircleIcon className="h-12 w-12 text-primary" />}
-        </>
-      )}
-
+    <div className={className}>
+      {user && <UserIcon user={user} />}
       {!user && <SignInButton />}
-    </>
+    </div>
   )
 }
 
@@ -37,8 +28,8 @@ const SignInButton = () => (
   </Link>
 )
 
-export const AuthButton = () => (
+export const AuthButton = (props: _AuthButtonProps) => (
   <Suspense fallback={<SignInButton />}>
-    <_AuthButton />
+    <_AuthButton className={props.className} />
   </Suspense>
 )
