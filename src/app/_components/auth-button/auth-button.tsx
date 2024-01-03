@@ -3,6 +3,13 @@ import { Suspense } from 'react'
 import { Link } from '@components/ui/link'
 import { getServerAuthSession } from '@/server/auth'
 import { UserIcon } from '@components/user-icon'
+import { LogOutButton } from '@components/auth-button/log-out-button'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
+  DropdownMenuItem,
+} from '@components/ui/dropdown-menu'
 
 export interface _AuthButtonProps {
   className?: string
@@ -16,14 +23,27 @@ const _AuthButton = async (props: _AuthButtonProps) => {
 
   return (
     <div className={className}>
-      {user && <UserIcon user={user} />}
+      {user && (
+        <DropdownMenu>
+          <DropdownMenuTrigger>
+            <UserIcon user={user} />
+          </DropdownMenuTrigger>
+
+          <DropdownMenuContent className="p-1" align="end">
+            <DropdownMenuItem className="hover:cursor-pointer">
+              <LogOutButton />
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      )}
+
       {!user && <SignInButton />}
     </div>
   )
 }
 
 const SignInButton = () => (
-  <Link href="sign-in" type="default">
+  <Link href="sign-in" variant="default">
     Sign in
   </Link>
 )

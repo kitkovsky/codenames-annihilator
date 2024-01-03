@@ -17,7 +17,7 @@ export const Header = () => (
           <Logo className="mr-12" />
           <div className="hidden md:flex">
             {NAV_LINKS.map((link) => (
-              <Link href={link.href} type="clear" key={link.href}>
+              <Link href={link.href} variant="clear" key={link.href}>
                 {link.label}
               </Link>
             ))}
