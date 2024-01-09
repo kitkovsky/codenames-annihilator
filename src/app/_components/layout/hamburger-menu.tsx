@@ -36,7 +36,7 @@ export const HamburgerMenu = (props: HamburgerMenuProps) => {
       </DialogTrigger>
 
       <DialogContent
-        className="left-4 top-4 w-[calc(100%-32px)]"
+        className="left-4 top-4 sm:left-6"
         position="absolute"
         customClose
       >

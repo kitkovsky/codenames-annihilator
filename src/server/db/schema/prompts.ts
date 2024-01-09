@@ -5,6 +5,10 @@ import { users } from '@/server/db/schema/users'
 import { defaultCreatedAt } from '@/server/db/utils'
 import { connectors } from '@/server/db/schema/connectors'
 
+export type Prompt = typeof prompts.$inferSelect
+export type PromptWord = typeof promptWords.$inferSelect
+export type PromptWithPromptWords = Prompt & { promptWords: PromptWord[] }
+
 export const prompts = sqliteTable(
   'prompts',
   {

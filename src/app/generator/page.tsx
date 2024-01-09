@@ -1,0 +1,109 @@
+import { Suspense } from 'react'
+import { db } from '@/server/db'
+import { eq } from 'drizzle-orm'
+import { cookies } from 'next/headers'
+import { InformationCircleIcon } from '@heroicons/react/20/solid'
+
+import { Dialog, DialogContent, DialogTrigger } from '@components/ui/dialog'
+import { GeneratorForm } from '@components/generator-form'
+import { getServerAuthSession } from '@/server/auth'
+import { prompts, type PromptWithPromptWords } from '@/server/db/schema/prompts'
+import { isEmpty } from '@utils/array.utils'
+
+export default function GeneratorPage() {
+  return (
+    <>
+      <div className="mx-auto max-w-4xl px-4 sm:px-6 sm:pt-4 lg:px-8 lg:pt-8">
+        <div className="relative flex flex-col items-center rounded-md border border-gray-100 p-2 sm:p-4">
+          <h1 className="mb-4 text-xl font-semibold sm:mb-8 sm:text-3xl">
+            Connectors generator
+          </h1>
+
+          <Dialog>
+            <DialogTrigger className="sm:hidden">
+              <InformationCircleIcon className="absolute right-1.5 top-1.5 h-5 w-5 text-light-gray" />
+            </DialogTrigger>
+            <DialogContent className="p-4">
+              <HowDoesItWorkList />
+            </DialogContent>
+          </Dialog>
+
+          <div className="grid w-full grid-cols-5">
+            <GeneratorForm className="col-span-5 sm:col-span-3" />
+
+            <div className="hidden sm:col-span-2 sm:flex">
+              <div className="mx-4 h-full w-px bg-gray-100" />
+
+              <HowDoesItWorkList />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="my-4 h-px w-full bg-gray-100" />
+
+      <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
+        <Suspense fallback={<div>Loading...</div>}>
+          <List />
+        </Suspense>
+      </div>
+    </>
+  )
+}
+
+const List = async () => {
+  const session = await getServerAuthSession()
+  const userId = session?.user.id
+
+  const userPrompts = userId
+    ? await getUserPromptsFromDb(userId)
+    : getUserPromptsFromCookie()
+
+  return (
+    <ul>
+      {isEmpty(userPrompts) && <li>no prompts</li>}
+
+      {userPrompts.map((prompt) => (
+        <li key={prompt.id}>
+          <span>
+            {prompt.promptWords.map((promptWord) => promptWord.word).join(', ')}
+          </span>
+        </li>
+      ))}
+    </ul>
+  )
+}
+
+const HowDoesItWorkList = () => (
+  <div className="flex flex-col gap-2">
+    <h2 className="text-lg font-medium">How does it work?</h2>
+    <ul className="flex flex-col gap-0.5 text-light-gray">
+      <li>Create a list of 2 to 5 prompt words.</li>
+      <li>These will be analyzed to generate a list of 5 connecting words.</li>
+      <li>
+        <span className="font-medium text-primary">Annihilate </span>
+        your opponents.
+      </li>
+    </ul>
+  </div>
+)
+
+const getUserPromptsFromDb = async (
+  userId: string,
+): Promise<PromptWithPromptWords[]> => {
+  const userPrompts = await db.query.prompts.findMany({
+    with: {
+      promptWords: true,
+    },
+    where: eq(prompts.authorId, userId),
+  })
+
+  return userPrompts
+}
+
+const getUserPromptsFromCookie = (): PromptWithPromptWords[] => {
+  const cookieStore = cookies()
+  const prompts = cookieStore.get('prompts')?.value
+
+  return prompts ? ([JSON.parse(prompts)] as PromptWithPromptWords[]) : []
+}

@@ -40,7 +40,9 @@ const DialogContent = React.forwardRef<
     ref,
   ) => (
     <DialogPortal>
-      <DialogOverlay />
+      <DialogOverlay
+        className={cn({ 'bg-black-100/85': position === 'center' })}
+      />
       <DialogPrimitive.Content
         ref={ref}
         className={cn(
@@ -51,7 +53,8 @@ const DialogContent = React.forwardRef<
           {
             absolute: position === 'absolute',
           },
-          'z-50 grid w-full gap-4 rounded border border-gray-100 bg-black-80 shadow-lg duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95',
+          'z-50 grid gap-4 rounded border border-gray-100 bg-black-80 shadow-lg duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95',
+          'w-[calc(100%-32px)] sm:w-[calc(100%-48px)]',
           className,
         )}
         {...props}
