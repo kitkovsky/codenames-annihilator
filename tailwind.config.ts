@@ -9,7 +9,7 @@ export const colors = {
   ['light-gray']: '#a1a1aa',
   ['lighter-gray']: '#d1d1d6',
   green: '#369b6e',
-  red: '#7f1d1d',
+  red: '#cc241d', // gruv 1
 }
 
 const config: Config = {
@@ -29,43 +29,43 @@ const config: Config = {
         '2xl': '1400px',
       },
     },
-    extend: {
-      colors: {
-        border: colors['black-80'],
-        input: colors['black-80'],
-        ring: colors['lighter-gray'],
-        background: colors['black-90'],
+    colors: {
+      border: colors['black-80'],
+      input: colors['black-80'],
+      ring: colors['lighter-gray'],
+      background: colors['black-90'],
+      foreground: colors.white,
+      primary: {
+        DEFAULT: colors.green,
         foreground: colors.white,
-        primary: {
-          DEFAULT: colors.green,
-          foreground: colors.white,
-        },
-        secondary: {
-          DEFAULT: colors['black-80'],
-          foreground: colors.white,
-        },
-        destructive: {
-          DEFAULT: colors.red,
-          foreground: colors.white,
-        },
-        muted: {
-          DEFAULT: colors['black-80'],
-          foreground: colors['light-gray'],
-        },
-        accent: {
-          DEFAULT: colors['black-80'],
-          foreground: colors.white,
-        },
-        popover: {
-          DEFAULT: colors['black-90'],
-          foreground: colors.white,
-        },
-        card: {
-          DEFAULT: colors['black-90'],
-          foreground: colors.white,
-        },
-        ...colors,
       },
+      secondary: {
+        DEFAULT: colors['black-80'],
+        foreground: colors.white,
+      },
+      destructive: {
+        DEFAULT: colors.red,
+        foreground: colors.white,
+      },
+      muted: {
+        DEFAULT: colors['black-80'],
+        foreground: colors['light-gray'],
+      },
+      accent: {
+        DEFAULT: colors['black-80'],
+        foreground: colors.white,
+      },
+      popover: {
+        DEFAULT: colors['black-90'],
+        foreground: colors.white,
+      },
+      card: {
+        DEFAULT: colors['black-90'],
+        foreground: colors.white,
+      },
+      ...colors,
+    },
+    extend: {
       keyframes: {
         'accordion-down': {
           from: { height: '0' },

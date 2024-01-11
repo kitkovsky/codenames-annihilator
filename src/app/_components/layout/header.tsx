@@ -4,7 +4,7 @@ import { HamburgerMenu } from '@components/layout/hamburger-menu'
 import { Logo } from '@components/logo'
 
 export const NAV_LINKS = [
-  { href: '/generate', label: 'Generate' },
+  { href: '/generator', label: 'Generator' },
   { href: '/flashcards', label: 'Flashcards' },
   { href: '/faq', label: 'Why?' },
 ]
