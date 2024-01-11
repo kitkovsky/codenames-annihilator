@@ -80,7 +80,7 @@ export const GeneratorForm = (props: GeneratorFormProps) => {
 
         <div className="relative mt-3 min-h-12 rounded-md bg-black-80 p-2 sm:mt-4">
           {isEmpty(promptWords) && (
-            <span className="pointer-events-none absolute left-4 top-6 -translate-y-1/2 text-sm text-light-gray">
+            <span className="pointer-events-none absolute left-4 top-6 -translate-y-1/2 text-sm text-muted-foreground">
               Your words will appear here
             </span>
           )}
@@ -108,7 +108,7 @@ export const GeneratorForm = (props: GeneratorFormProps) => {
 
       <div className="flex flex-col items-center gap-3" ref={animationParent}>
         {promptWords.length < 2 && (
-          <span className="text-xs text-light-gray/75 sm:text-sm">
+          <span className="text-xs text-muted-foreground/75 sm:text-sm">
             (Include at least 2 prompt words)
           </span>
         )}

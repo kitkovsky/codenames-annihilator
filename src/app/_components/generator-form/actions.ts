@@ -52,3 +52,30 @@ export const insertPrompts = async (formPrompts: string[]): Promise<void> => {
 
   revalidatePath('/generate')
 }
+
+// const getCompletion = async (_prompt: string): Promise<string> => {
+//   await fetch('https://api.api-ninjas.com/v1/randomword', {
+//     headers: {
+//       'X-Api-Key': '',
+//     },
+//   })
+//   console.log(fetch)
+
+//   // const openai = new OpenAI({ apiKey: env.OPENAI_API_KEY })
+//   // const completion = await openai.chat.completions.create({
+//   //   messages: [
+//   //     ...rules.map((rule) => ({ role: 'system' as const, content: rule })),
+//   //     { role: 'user', content: 'chair, table' },
+//   //     { role: 'system', content: 'wood, furniture, legs, kitchen, ikea' },
+//   //     {
+//   //       role: 'system',
+//   //       content:
+//   //         'Now come up with a new list of 5 words for the incoming prompt.',
+//   //     },
+//   //     { role: 'user', content: prompt },
+//   //   ],
+//   //   model: 'gpt-4',
+//   // })
+
+//   // return completion.choices[0]?.message.content ?? ''
+// }

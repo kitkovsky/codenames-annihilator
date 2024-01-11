@@ -1,14 +1,9 @@
 import { Suspense } from 'react'
-import { db } from '@/server/db'
-import { eq } from 'drizzle-orm'
-import { cookies } from 'next/headers'
 import { InformationCircleIcon } from '@heroicons/react/20/solid'
 
 import { Dialog, DialogContent, DialogTrigger } from '@components/ui/dialog'
 import { GeneratorForm } from '@components/generator-form'
-import { getServerAuthSession } from '@/server/auth'
-import { prompts, type PromptWithPromptWords } from '@/server/db/schema/prompts'
-import { isEmpty } from '@utils/array.utils'
+import { PromptConnectorsList } from '@components/prompt-connectors-list'
 
 export default function GeneratorPage() {
   return (
@@ -43,34 +38,12 @@ export default function GeneratorPage() {
       <div className="my-4 h-px w-full bg-gray-100" />
 
       <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
+        {/* TODO: add a skeleton loading state */}
         <Suspense fallback={<div>Loading...</div>}>
-          <List />
+          <PromptConnectorsList />
         </Suspense>
       </div>
     </>
-  )
-}
-
-const List = async () => {
-  const session = await getServerAuthSession()
-  const userId = session?.user.id
-
-  const userPrompts = userId
-    ? await getUserPromptsFromDb(userId)
-    : getUserPromptsFromCookie()
-
-  return (
-    <ul>
-      {isEmpty(userPrompts) && <li>no prompts</li>}
-
-      {userPrompts.map((prompt) => (
-        <li key={prompt.id}>
-          <span>
-            {prompt.promptWords.map((promptWord) => promptWord.word).join(', ')}
-          </span>
-        </li>
-      ))}
-    </ul>
   )
 }
 
@@ -87,23 +60,3 @@ const HowDoesItWorkList = () => (
     </ul>
   </div>
 )
-
-const getUserPromptsFromDb = async (
-  userId: string,
-): Promise<PromptWithPromptWords[]> => {
-  const userPrompts = await db.query.prompts.findMany({
-    with: {
-      promptWords: true,
-    },
-    where: eq(prompts.authorId, userId),
-  })
-
-  return userPrompts
-}
-
-const getUserPromptsFromCookie = (): PromptWithPromptWords[] => {
-  const cookieStore = cookies()
-  const prompts = cookieStore.get('prompts')?.value
-
-  return prompts ? ([JSON.parse(prompts)] as PromptWithPromptWords[]) : []
-}
