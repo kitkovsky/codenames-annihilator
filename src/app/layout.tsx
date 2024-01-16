@@ -20,7 +20,7 @@ export default function RootLayout({
       <body
         className={cn(
           GeistSans.variable,
-          'h-full min-h-screen bg-background font-sans text-foreground',
+          'bg-background font-sans text-foreground',
         )}
       >
         <Header />

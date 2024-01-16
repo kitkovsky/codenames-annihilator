@@ -64,8 +64,8 @@ export const PromptConnectorsListSkeleton = () => (
 const PromptConnectorsTableHeader = () => (
   <TableHeader>
     <TableRow>
-      <TableHead className="pl-0 sm:pl-4">Prompt</TableHead>
-      <TableHead className="px-0 sm:px-4">Connectors</TableHead>
+      <TableHead className="min-w-32 pl-2 sm:pl-4">Prompt</TableHead>
+      <TableHead className="px-2 sm:px-4">Connectors</TableHead>
     </TableRow>
   </TableHeader>
 )
@@ -82,8 +82,8 @@ const PromptConnectorsTableRow = (props: { prompt: PromptWithConnector }) => {
 
   return (
     <TableRow>
-      <TableCell className="pl-0 sm:pl-4">{promptWords}</TableCell>
-      <TableCell className="px-0 sm:px-4">{connectorWords}</TableCell>
+      <TableCell className="pl-2 sm:pl-4">{promptWords}</TableCell>
+      <TableCell className="px-2 sm:px-4">{connectorWords}</TableCell>
     </TableRow>
   )
 }
