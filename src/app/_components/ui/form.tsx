@@ -8,6 +8,7 @@ import {
   type FieldValues,
   FormProvider,
   useFormContext,
+  type FieldError,
 } from 'react-hook-form'
 
 import { cn } from '@utils/cn.utils'
@@ -31,7 +32,7 @@ const FormField = <
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
 >({
   ...props
-}: ControllerProps<TFieldValues, TName>) => {
+}: ControllerProps<TFieldValues, TName>): React.ReactElement => {
   return (
     <FormFieldContext.Provider value={{ name: props.name }}>
       <Controller {...props} />
@@ -39,7 +40,19 @@ const FormField = <
   )
 }
 
-const useFormField = () => {
+type UseFormFieldReturn = {
+  id: string
+  name: string
+  formItemId: string
+  formDescriptionId: string
+  formMessageId: string
+  invalid: boolean
+  isDirty: boolean
+  isTouched: boolean
+  error?: FieldError | undefined
+}
+
+const useFormField = (): UseFormFieldReturn => {
   const fieldContext = React.useContext(FormFieldContext)
   const itemContext = React.useContext(FormItemContext)
   const { getFieldState, formState } = useFormContext()

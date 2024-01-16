@@ -9,7 +9,7 @@ export interface LogOutButtonProps {
   className?: string
 }
 
-export const LogOutButton = (props: LogOutButtonProps) => {
+export const LogOutButton = (props: LogOutButtonProps): React.ReactElement => {
   const { className } = props
 
   return (

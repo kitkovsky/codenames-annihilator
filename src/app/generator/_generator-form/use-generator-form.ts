@@ -7,7 +7,7 @@ import { generateAndSavePromptWithConnector } from '@/app/generator/_generator-f
 
 export const MAX_PROMPT_WORDS_COUNT = 5
 
-export interface UseGeneratorFormReturn {
+export type UseGeneratorFormReturn = {
   form: ReturnType<typeof useForm<FormValues>>
   onSubmit: (values: FormValues) => void
   MAX_PROMPT_WORDS_COUNT: number

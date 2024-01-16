@@ -26,7 +26,9 @@ export interface HamburgerMenuProps {
   className?: string
 }
 
-export const HamburgerMenu = (props: HamburgerMenuProps) => {
+export const HamburgerMenu = (
+  props: HamburgerMenuProps,
+): React.ReactElement => {
   const { className } = props
 
   return (
@@ -74,7 +76,7 @@ export const HamburgerMenu = (props: HamburgerMenuProps) => {
   )
 }
 
-const HamburgerMenuFooter = async () => {
+const HamburgerMenuFooter = async (): Promise<React.ReactElement> => {
   const session = await getServerAuthSession()
   const user = session?.user
 

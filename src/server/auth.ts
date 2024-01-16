@@ -2,6 +2,7 @@ import {
   getServerSession,
   type DefaultSession,
   type NextAuthOptions,
+  type Session,
 } from 'next-auth'
 import { DrizzleAdapter } from '@auth/drizzle-adapter'
 import GoogleProvider from 'next-auth/providers/google'
@@ -75,6 +76,5 @@ export const authOptions: NextAuthOptions = {
   debug: env.NODE_ENV === 'development',
 }
 
-export const getServerAuthSession = () => getServerSession(authOptions)
-
-export type Session = Awaited<ReturnType<typeof getServerAuthSession>>
+export const getServerAuthSession = (): Promise<Session | null> =>
+  getServerSession(authOptions)

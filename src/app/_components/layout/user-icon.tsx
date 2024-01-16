@@ -9,7 +9,9 @@ export interface UserIconProps {
   size?: 'sm' | 'lg'
 }
 
-export const UserIcon = async (props: UserIconProps) => {
+export const UserIcon = async (
+  props: UserIconProps,
+): Promise<React.ReactElement> => {
   const { user, size = 'lg' } = props
   const imageSize = size === 'sm' ? 32 : 48
   const iconSize = size === 'sm' ? 'h-8 w-8' : 'h-12 w-12'

@@ -14,7 +14,7 @@ import { getUserPromptsFromDB, getUserPromptsFromCookie } from '@rpc/prompts'
 import type { PromptWithConnector } from '@/server/db/schema/prompts'
 import { Skeleton } from '@components/ui/skeleton'
 
-const _PromptConnectorsList = async () => {
+const _PromptConnectorsList = async (): Promise<React.ReactElement> => {
   const session = await getServerAuthSession()
   const userId = session?.user.id
   const userPrompts = userId
@@ -45,7 +45,7 @@ const _PromptConnectorsList = async () => {
   )
 }
 
-const PromptConnectorsListSkeleton = () => (
+const PromptConnectorsListSkeleton = (): React.ReactElement => (
   <Table>
     <PromptConnectorsTableHeader />
     <TableBody>
@@ -63,7 +63,7 @@ const PromptConnectorsListSkeleton = () => (
   </Table>
 )
 
-const PromptConnectorsTableHeader = () => (
+const PromptConnectorsTableHeader = (): React.ReactElement => (
   <TableHeader>
     <TableRow>
       <TableHead className="min-w-32 pl-2 sm:pl-4">Prompt</TableHead>
@@ -72,7 +72,9 @@ const PromptConnectorsTableHeader = () => (
   </TableHeader>
 )
 
-const PromptConnectorsTableRow = (props: { prompt: PromptWithConnector }) => {
+const PromptConnectorsTableRow = (props: {
+  prompt: PromptWithConnector
+}): React.ReactElement => {
   const { prompt } = props
 
   const promptWords = prompt.promptWords
@@ -90,7 +92,7 @@ const PromptConnectorsTableRow = (props: { prompt: PromptWithConnector }) => {
   )
 }
 
-export const PromptConnectorsList = () => (
+export const PromptConnectorsList = (): React.ReactElement => (
   <Suspense fallback={<PromptConnectorsListSkeleton />}>
     <_PromptConnectorsList />
   </Suspense>
