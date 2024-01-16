@@ -2,7 +2,7 @@ import { Suspense } from 'react'
 
 import { Link } from '@components/ui/link'
 import { getServerAuthSession } from '@/server/auth'
-import { UserIcon } from '@components/user-icon'
+import { UserIcon } from '@components/layout/user-icon'
 import { LogOutButton } from '@components/auth-button/log-out-button'
 import {
   DropdownMenu,

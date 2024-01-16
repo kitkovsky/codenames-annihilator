@@ -4,7 +4,7 @@ import { cookies } from 'next/headers'
 
 import { prompts, type PromptWithConnector } from '@/server/db/schema/prompts'
 
-export const PROMPTS_COOKIE_NAME = 'prompts'
+export const LOCAL_PROMPTS_COOKIE_NAME = 'prompts'
 
 export const getUserPromptsFromDB = async (
   userId: string,
@@ -27,7 +27,7 @@ export const getUserPromptsFromDB = async (
 
 export const getUserPromptsFromCookie = (): PromptWithConnector[] => {
   const cookieStore = cookies()
-  const prompts = cookieStore.get(PROMPTS_COOKIE_NAME)?.value
+  const prompts = cookieStore.get(LOCAL_PROMPTS_COOKIE_NAME)?.value
 
   return prompts ? (JSON.parse(prompts) as PromptWithConnector[]) : []
 }
