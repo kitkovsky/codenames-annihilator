@@ -3,7 +3,10 @@ import { InformationCircleIcon } from '@heroicons/react/20/solid'
 
 import { Dialog, DialogContent, DialogTrigger } from '@components/ui/dialog'
 import { GeneratorForm } from '@components/generator-form'
-import { PromptConnectorsList } from '@components/prompt-connectors-list'
+import {
+  PromptConnectorsList,
+  PromptConnectorsListSkeleton,
+} from '@components/prompt-connectors-list'
 
 export default function GeneratorPage() {
   return (
@@ -38,8 +41,7 @@ export default function GeneratorPage() {
       <div className="my-4 h-px w-full bg-gray-100" />
 
       <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
-        {/* TODO: add a skeleton loading state */}
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<PromptConnectorsListSkeleton />}>
           <PromptConnectorsList />
         </Suspense>
       </div>
