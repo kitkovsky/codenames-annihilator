@@ -3,7 +3,7 @@ import { useState, type Dispatch, type SetStateAction } from 'react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 
-import { insertPrompts } from '@components/generator-form/actions'
+import { generateAndSavePromptWithConnector } from '@components/generator-form/actions'
 
 export const MAX_PROMPT_WORDS_COUNT = 5
 
@@ -43,7 +43,7 @@ export const useGeneratorForm = (): UseGeneratorFormReturn => {
   }
 
   const onGenerateSubmit = async (): Promise<void> => {
-    await insertPrompts(promptWords)
+    await generateAndSavePromptWithConnector(promptWords)
     setPromptWords([])
   }
 

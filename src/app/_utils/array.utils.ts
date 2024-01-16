@@ -16,6 +16,5 @@ export const range = (start: number, end?: number): number[] => {
   const length = end ? end - start : start
   const _startIdx = end ? start : 0
 
-  // return [...Array(length).keys()]
   return Array.from({ length }, (_, k) => k + _startIdx)
 }

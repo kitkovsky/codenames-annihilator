@@ -1,7 +1,3 @@
-import { db } from '@/server/db'
-import { eq } from 'drizzle-orm'
-import { cookies } from 'next/headers'
-
 import {
   Table,
   TableBody,
@@ -10,25 +6,23 @@ import {
   TableHeader,
   TableRow,
 } from '@components/ui/table'
-import { prompts } from '@/server/db/schema/prompts'
 import { getServerAuthSession } from '@/server/auth'
-import { isEmpty } from '@utils/array.utils'
-
-type PromptWithWordsWithConnectors = Awaited<
-  ReturnType<typeof getUserPromptsFromDb>
->[number]
+import { isEmpty, range } from '@utils/array.utils'
+import { getUserPromptsFromDB, getUserPromptsFromCookie } from '@rpc/prompts'
+import type { PromptWithConnector } from '@/server/db/schema/prompts'
+import { Skeleton } from '@components/ui/skeleton'
 
 export const PromptConnectorsList = async () => {
   const session = await getServerAuthSession()
   const userId = session?.user.id
   const userPrompts = userId
-    ? await getUserPromptsFromDb(userId)
+    ? await getUserPromptsFromDB(userId)
     : getUserPromptsFromCookie()
 
   return (
     <>
       {isEmpty(userPrompts) && (
-        <div className="flex justify-center">
+        <div className="mt-6 flex justify-center">
           <span className="text-sm text-muted-foreground">
             A list of your recent searches, looking empty
           </span>
@@ -36,13 +30,8 @@ export const PromptConnectorsList = async () => {
       )}
 
       {!isEmpty(userPrompts) && (
-        <Table className="caption-top">
-          <TableHeader>
-            <TableRow>
-              <TableHead>Prompt</TableHead>
-              <TableHead>Connectors</TableHead>
-            </TableRow>
-          </TableHeader>
+        <Table>
+          <PromptConnectorsTableHeader />
           <TableBody>
             {userPrompts.map((prompt) => (
               <PromptConnectorsTableRow prompt={prompt} key={prompt.id} />
@@ -54,47 +43,47 @@ export const PromptConnectorsList = async () => {
   )
 }
 
-const PromptConnectorsTableRow = (props: {
-  prompt: PromptWithWordsWithConnectors
-}) => {
+export const PromptConnectorsListSkeleton = () => (
+  <Table>
+    <PromptConnectorsTableHeader />
+    <TableBody>
+      {range(5).map(() => (
+        <TableRow>
+          <TableCell>
+            <Skeleton className="h-5 w-36 rounded" />
+          </TableCell>
+          <TableCell>
+            <Skeleton className="h-5 w-64 rounded" />
+          </TableCell>
+        </TableRow>
+      ))}
+    </TableBody>
+  </Table>
+)
+
+const PromptConnectorsTableHeader = () => (
+  <TableHeader>
+    <TableRow>
+      <TableHead className="pl-0 sm:pl-4">Prompt</TableHead>
+      <TableHead className="px-0 sm:px-4">Connectors</TableHead>
+    </TableRow>
+  </TableHeader>
+)
+
+const PromptConnectorsTableRow = (props: { prompt: PromptWithConnector }) => {
   const { prompt } = props
+
   const promptWords = prompt.promptWords
     .map((promptWord) => promptWord.word)
     .join(', ')
-  console.log(prompt)
-  // const connectorWords = prompt.connector.connectorWords
-  //   .map((connectorWord) => connectorWord.word)
-  //   .join(', ')
+  const connectorWords = prompt.connector.connectorWords
+    .map((connectorWord) => connectorWord.word)
+    .join(', ')
 
   return (
     <TableRow>
-      <TableCell>{promptWords}</TableCell>
-      <TableCell>{1}</TableCell>
+      <TableCell className="pl-0 sm:pl-4">{promptWords}</TableCell>
+      <TableCell className="px-0 sm:px-4">{connectorWords}</TableCell>
     </TableRow>
   )
-}
-
-const getUserPromptsFromDb = async (userId: string) => {
-  const userPrompts = await db.query.prompts.findMany({
-    with: {
-      promptWords: true,
-      connector: {
-        with: {
-          connectorWords: true,
-        },
-      },
-    },
-    where: eq(prompts.authorId, userId),
-  })
-
-  return userPrompts
-}
-
-const getUserPromptsFromCookie = (): PromptWithWordsWithConnectors[] => {
-  const cookieStore = cookies()
-  const prompts = cookieStore.get('prompts')?.value
-
-  return prompts
-    ? ([JSON.parse(prompts)] as PromptWithWordsWithConnectors[])
-    : []
 }

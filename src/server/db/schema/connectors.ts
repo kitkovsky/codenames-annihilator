@@ -4,6 +4,12 @@ import { text, integer, sqliteTable, index } from 'drizzle-orm/sqlite-core'
 import { prompts } from '@/server/db/schema/prompts'
 import { defaultCreatedAt } from '@/server/db/utils'
 
+export type Connector = typeof connectors.$inferSelect
+export type ConnectorWord = typeof connectorWords.$inferSelect
+export type ConnectorWithConnectorWords = Connector & {
+  connectorWords: ConnectorWord[]
+}
+
 export const connectors = sqliteTable('connectors', {
   id: integer('id').primaryKey(),
   promptId: integer('prompt_id')

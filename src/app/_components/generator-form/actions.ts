@@ -7,75 +7,83 @@ import { db } from '@/server/db'
 import {
   promptWords,
   prompts,
-  type PromptWord,
-  type PromptWithPromptWords,
+  type PromptWithConnector,
 } from '@/server/db/schema/prompts'
 import { getServerAuthSession } from '@/server/auth'
+import { PROMPTS_COOKIE_NAME, getUserPromptsFromCookie } from '@rpc/prompts'
+import { connectors, connectorWords } from '@/server/db/schema/connectors'
+import { createLocalPromptWithPromptWords } from '@utils/prompts.utils'
+import {
+  createLocalConnectorWithConnectorWords,
+  getConnectorWords,
+} from '@utils/connectors.utils'
 
-export const insertPrompts = async (formPrompts: string[]): Promise<void> => {
+export const generateAndSavePromptWithConnector = async (
+  formPrompts: string[],
+): Promise<void> => {
   const session = await getServerAuthSession()
   const userId = session?.user.id
 
-  if (!userId) {
-    const promptWithPromptWords: PromptWithPromptWords = {
-      id: Math.floor(Math.random() * 1_000_000),
-      createdAt: String(new Date()),
-      authorId: '1',
-      promptWords: [],
-    }
-    const promptWords: PromptWord[] = formPrompts.map((word) => ({
-      id: Math.floor(Math.random() * 1_000_000),
-      promptId: promptWithPromptWords.id,
-      word,
-    }))
-    promptWithPromptWords.promptWords = promptWords
-
-    cookies().set('prompts', JSON.stringify(promptWithPromptWords))
-  }
-
-  if (userId) {
-    await db.transaction(async (tx) => {
-      const { insertedId } = (
-        await tx
-          .insert(prompts)
-          .values({ authorId: userId })
-          .returning({ insertedId: prompts.id })
-      )[0]!
-
-      await tx
-        .insert(promptWords)
-        .values(
-          formPrompts.map((prompt) => ({ promptId: insertedId, word: prompt })),
-        )
-    })
-  }
+  if (!userId) await generateAndSaveToCookie(formPrompts)
+  if (userId) await generateAndSaveToDB(formPrompts, userId)
 
   revalidatePath('/generate')
 }
 
-// const getCompletion = async (_prompt: string): Promise<string> => {
-//   await fetch('https://api.api-ninjas.com/v1/randomword', {
-//     headers: {
-//       'X-Api-Key': '',
-//     },
-//   })
-//   console.log(fetch)
+const generateAndSaveToCookie = async (
+  promptWords: string[],
+): Promise<void> => {
+  const promptWithPromptWords = createLocalPromptWithPromptWords(promptWords)
+  const connectorWithConnectorWords =
+    await createLocalConnectorWithConnectorWords(promptWithPromptWords.id)
 
-//   // const openai = new OpenAI({ apiKey: env.OPENAI_API_KEY })
-//   // const completion = await openai.chat.completions.create({
-//   //   messages: [
-//   //     ...rules.map((rule) => ({ role: 'system' as const, content: rule })),
-//   //     { role: 'user', content: 'chair, table' },
-//   //     { role: 'system', content: 'wood, furniture, legs, kitchen, ikea' },
-//   //     {
-//   //       role: 'system',
-//   //       content:
-//   //         'Now come up with a new list of 5 words for the incoming prompt.',
-//   //     },
-//   //     { role: 'user', content: prompt },
-//   //   ],
-//   //   model: 'gpt-4',
-//   // })
+  const promptWithConnector: PromptWithConnector = {
+    ...promptWithPromptWords,
+    connector: connectorWithConnectorWords,
+  }
 
-//   // return completion.choices[0]?.message.content ?? ''
-// }
+  const existingPrompts = getUserPromptsFromCookie()
+
+  cookies().set(
+    PROMPTS_COOKIE_NAME,
+    JSON.stringify([promptWithConnector, ...existingPrompts]),
+  )
+}
+
+const generateAndSaveToDB = async (
+  formPromptWords: string[],
+  userId: string,
+): Promise<void> => {
+  const aiConnectorWords = await getConnectorWords({
+    source: 'openAI',
+    promptWords: formPromptWords.join(','),
+  })
+
+  await db.transaction(async (tx) => {
+    const { insertedPromptId } = (
+      await tx
+        .insert(prompts)
+        .values({ authorId: userId })
+        .returning({ insertedPromptId: prompts.id })
+    )[0]!
+    await tx.insert(promptWords).values(
+      formPromptWords.map((prompt) => ({
+        promptId: insertedPromptId,
+        word: prompt,
+      })),
+    )
+
+    const { insertedConnectorId } = (
+      await tx
+        .insert(connectors)
+        .values({ promptId: insertedPromptId })
+        .returning({ insertedConnectorId: connectors.id })
+    )[0]!
+    await tx.insert(connectorWords).values(
+      aiConnectorWords.map((connectorWord) => ({
+        connectorId: insertedConnectorId,
+        word: connectorWord,
+      })),
+    )
+  })
+}

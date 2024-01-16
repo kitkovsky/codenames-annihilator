@@ -17,6 +17,8 @@ export const env = createEnv({
 
     OPENAI_API_KEY: z.string(),
 
+    API_NINJAS_API_KEY: z.string(),
+
     NODE_ENV: z
       .enum(['development', 'test', 'production'])
       .default('development'),

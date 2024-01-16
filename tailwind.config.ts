@@ -9,7 +9,7 @@ export const colors = {
   ['light-gray']: '#a1a1aa',
   ['lighter-gray']: '#d1d1d6',
   green: '#369b6e',
-  red: '#cc241d', // gruv 1
+  red: '#cc241d',
 }
 
 const config: Config = {

@@ -37,6 +37,7 @@
     "paths": {
       "@components/*": ["./src/app/_components/*"],
       "@utils/*": ["./src/app/_utils/*"],
+      "@rpc/*": ["./src/app/_rpc/*"],
       "@/*": ["./src/*"],
       "~/*": ["./*"]
     }
