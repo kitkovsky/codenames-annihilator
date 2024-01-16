@@ -12,6 +12,8 @@ const config = {
     'plugin:drizzle/recommended',
   ],
   rules: {
+    '@typescript-eslint/explicit-function-return-type': 'error',
+
     '@typescript-eslint/array-type': 'off',
     '@typescript-eslint/consistent-type-definitions': 'off',
 

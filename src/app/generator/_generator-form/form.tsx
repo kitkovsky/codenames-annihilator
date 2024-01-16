@@ -20,7 +20,9 @@ export interface GeneratorFormProps {
   className?: string
 }
 
-export const GeneratorForm = (props: GeneratorFormProps) => {
+export const GeneratorForm = (
+  props: GeneratorFormProps,
+): React.ReactElement => {
   const { className } = props
 
   const {

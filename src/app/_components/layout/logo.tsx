@@ -7,7 +7,7 @@ export interface LogoProps {
   size?: 'sm' | 'lg'
 }
 
-export const Logo = (props: LogoProps) => {
+export const Logo = (props: LogoProps): React.ReactElement => {
   const { className, size = 'sm' } = props
 
   return (

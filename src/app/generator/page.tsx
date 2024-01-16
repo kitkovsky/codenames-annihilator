@@ -4,7 +4,7 @@ import { Dialog, DialogContent, DialogTrigger } from '@components/ui/dialog'
 import { GeneratorForm } from './_generator-form'
 import { PromptConnectorsList } from './prompt-connectors-list'
 
-export default function GeneratorPage() {
+export default function GeneratorPage(): React.ReactElement {
   return (
     <>
       <div className="mx-auto max-w-4xl px-4 sm:px-6 sm:pt-4 lg:px-8 lg:pt-8">
@@ -43,7 +43,7 @@ export default function GeneratorPage() {
   )
 }
 
-const HowDoesItWorkList = () => (
+const HowDoesItWorkList = (): React.ReactElement => (
   <div className="flex flex-col gap-2">
     <h2 className="text-lg font-medium">How does it work?</h2>
     <ul className="flex flex-col gap-0.5 text-light-gray">

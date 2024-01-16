@@ -15,7 +15,9 @@ export interface _AuthButtonProps {
   className?: string
 }
 
-const _AuthButton = async (props: _AuthButtonProps) => {
+const _AuthButton = async (
+  props: _AuthButtonProps,
+): Promise<React.ReactElement> => {
   const { className } = props
 
   const session = await getServerAuthSession()
@@ -42,13 +44,13 @@ const _AuthButton = async (props: _AuthButtonProps) => {
   )
 }
 
-const SignInButton = () => (
+const SignInButton = (): React.ReactElement => (
   <Link href="sign-in" variant="default">
     Sign in
   </Link>
 )
 
-export const AuthButton = (props: _AuthButtonProps) => (
+export const AuthButton = (props: _AuthButtonProps): React.ReactElement => (
   <Suspense fallback={<SignInButton />}>
     <_AuthButton className={props.className} />
   </Suspense>

@@ -9,7 +9,7 @@ export const NAV_LINKS = [
   { href: '/faq', label: 'Why?' },
 ]
 
-export const Header = () => (
+export const Header = (): React.ReactElement => (
   <header>
     <div className="mx-auto max-w-7xl px-4 py-4 sm:px-6 lg:px-8">
       <nav className="flex items-center justify-between sm:pt-2">
