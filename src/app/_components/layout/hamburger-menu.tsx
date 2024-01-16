@@ -1,8 +1,8 @@
 import { Suspense } from 'react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/solid'
 
-import { UserIcon } from '@components/user-icon'
-import { Logo } from '@components/logo'
+import { UserIcon } from './user-icon'
+import { Logo } from './logo'
 import { Link } from '@components/ui/link'
 import { LogOutButton } from '@components/auth-button/log-out-button'
 import {
@@ -18,7 +18,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@components/ui/accordion'
-import { NAV_LINKS } from '@components/layout/header'
+import { NAV_LINKS } from './header'
 import { getServerAuthSession } from '@/server/auth'
 import { cn } from '@utils/cn.utils'
 

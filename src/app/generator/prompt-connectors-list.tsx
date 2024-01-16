@@ -1,3 +1,5 @@
+import { Suspense } from 'react'
+
 import {
   Table,
   TableBody,
@@ -12,7 +14,7 @@ import { getUserPromptsFromDB, getUserPromptsFromCookie } from '@rpc/prompts'
 import type { PromptWithConnector } from '@/server/db/schema/prompts'
 import { Skeleton } from '@components/ui/skeleton'
 
-export const PromptConnectorsList = async () => {
+const _PromptConnectorsList = async () => {
   const session = await getServerAuthSession()
   const userId = session?.user.id
   const userPrompts = userId
@@ -43,7 +45,7 @@ export const PromptConnectorsList = async () => {
   )
 }
 
-export const PromptConnectorsListSkeleton = () => (
+const PromptConnectorsListSkeleton = () => (
   <Table>
     <PromptConnectorsTableHeader />
     <TableBody>
@@ -87,3 +89,9 @@ const PromptConnectorsTableRow = (props: { prompt: PromptWithConnector }) => {
     </TableRow>
   )
 }
+
+export const PromptConnectorsList = () => (
+  <Suspense fallback={<PromptConnectorsListSkeleton />}>
+    <_PromptConnectorsList />
+  </Suspense>
+)

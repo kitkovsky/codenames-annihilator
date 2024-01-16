@@ -10,7 +10,10 @@ import {
   type PromptWithConnector,
 } from '@/server/db/schema/prompts'
 import { getServerAuthSession } from '@/server/auth'
-import { PROMPTS_COOKIE_NAME, getUserPromptsFromCookie } from '@rpc/prompts'
+import {
+  LOCAL_PROMPTS_COOKIE_NAME,
+  getUserPromptsFromCookie,
+} from '@rpc/prompts'
 import { connectors, connectorWords } from '@/server/db/schema/connectors'
 import { createLocalPromptWithPromptWords } from '@utils/prompts.utils'
 import {
@@ -45,7 +48,7 @@ const generateAndSaveToCookie = async (
   const existingPrompts = getUserPromptsFromCookie()
 
   cookies().set(
-    PROMPTS_COOKIE_NAME,
+    LOCAL_PROMPTS_COOKIE_NAME,
     JSON.stringify([promptWithConnector, ...existingPrompts]),
   )
 }
