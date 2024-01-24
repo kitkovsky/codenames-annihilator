@@ -10,6 +10,7 @@ export const colors = {
   ['lighter-gray']: '#d1d1d6',
   green: '#369b6e',
   red: '#cc241d',
+  blue: '#52a9ff',
 }
 
 const config: Config = {
