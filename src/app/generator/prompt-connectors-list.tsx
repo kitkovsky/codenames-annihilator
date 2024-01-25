@@ -49,8 +49,8 @@ const PromptConnectorsListSkeleton = (): React.ReactElement => (
   <Table>
     <PromptConnectorsTableHeader />
     <TableBody>
-      {range(5).map(() => (
-        <TableRow>
+      {range(5).map((idx) => (
+        <TableRow key={idx}>
           <TableCell>
             <Skeleton className="h-5 w-36 rounded" />
           </TableCell>

@@ -4,6 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 
 import { generateAndSavePromptWithConnector } from '@/app/generator/_generator-form/actions'
+import { useLoadingState } from '@utils/loading-state.utils'
 
 export const MAX_PROMPT_WORDS_COUNT = 5
 
@@ -16,6 +17,7 @@ export type UseGeneratorFormReturn = {
   onGenerateSubmit: () => Promise<void>
   inputDisabled: boolean
   submitButtonDisabled: boolean
+  loading: boolean
 }
 
 const formSchema = z.object({ promptWord: z.string() })
@@ -42,10 +44,13 @@ export const useGeneratorForm = (): UseGeneratorFormReturn => {
     form.reset()
   }
 
-  const onGenerateSubmit = async (): Promise<void> => {
+  const _onGenerateSubmit = async (): Promise<void> => {
     await generateAndSavePromptWithConnector(promptWords)
     setPromptWords([])
   }
+
+  const { loading, wrappedFn: onGenerateSubmit } =
+    useLoadingState(_onGenerateSubmit)
 
   return {
     form,
@@ -56,5 +61,6 @@ export const useGeneratorForm = (): UseGeneratorFormReturn => {
     onGenerateSubmit,
     inputDisabled,
     submitButtonDisabled,
+    loading,
   }
 }
