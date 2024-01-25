@@ -34,6 +34,7 @@ export const GeneratorForm = (
     onGenerateSubmit,
     inputDisabled,
     submitButtonDisabled,
+    loading,
   } = useGeneratorForm()
   const [animationParent] = useAutoAnimate({ duration: 150 })
 
@@ -118,6 +119,7 @@ export const GeneratorForm = (
         <Button
           onClick={onGenerateSubmit}
           disabled={promptWords.length < 2}
+          loading={loading}
           className="w-full transition-all"
         >
           Generate
