@@ -1,19 +1,5 @@
 name: Deploy to production
 
-env:
-  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-  DB_URL: ${{ secrets.DB_URL }}
-  DB_AUTH_TOKEN: ${{ secrets.DB_AUTH_TOKEN }}
-  NEXTAUTH_URL: ${{ secrets.NEXTAUTH_URL }}
-  NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
-  OAUTH_GITHUB_CLIENT_ID: ${{ secrets.OAUTH_GITHUB_CLIENT_ID }}
-  OAUTH_GITHUB_CLIENT_SECRET: ${{ secrets.OAUTH_GITHUB_CLIENT_SECRET }}
-  OAUTH_GOOGLE_CLIENT_ID: ${{ secrets.OAUTH_GOOGLE_CLIENT_ID }}
-  OAUTH_GOOGLE_CLIENT_SECRET: ${{ secrets.OAUTH_GOOGLE_CLIENT_SECRET }}
-  OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-  API_NINJAS_API_KEY: ${{ secrets.API_NINJAS_API_KEY }}
-
 on:
   push:
     branches:
@@ -45,6 +31,9 @@ jobs:
 
       - name: Pull vercel environment information
         run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Pull env vars from vercel
+        run: vercel env pull --environment=production --token=${{ secrets.VERCEL_TOKEN }}
 
       - name: Update DB schema
         run: bun db:push
