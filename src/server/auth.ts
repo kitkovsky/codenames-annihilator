@@ -26,6 +26,7 @@ declare module 'next-auth' {
 // next-auth drizzle adapter doesn't support async sqlite clients (like turso's libsql),
 // which caused errors on consecutive logins, so this is a workaround
 // https://github.com/nextauthjs/next-auth/issues/8377#issuecomment-1694720111
+// @ts-expect-error ignore for now
 const AsyncDrizzleAdapter: Adapter = {
   ...DrizzleAdapter(db),
   async getUserByAccount(providerAccountId) {

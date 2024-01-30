@@ -12,23 +12,23 @@
     "db:studio": "drizzle-kit studio"
   },
   "dependencies": {
-    "@auth/core": "^0.19.0",
-    "@auth/drizzle-adapter": "^0.3.9",
+    "@auth/core": "^0.24.0",
+    "@auth/drizzle-adapter": "^0.4.0",
     "@formkit/auto-animate": "^0.8.1",
     "@heroicons/react": "^2.1.1",
     "@hookform/resolvers": "^3.3.4",
-    "@libsql/client": "0.4.0-pre.5",
+    "@libsql/client": "0.4.2",
     "@radix-ui/react-accordion": "^1.1.2",
     "@radix-ui/react-dialog": "^1.0.5",
     "@radix-ui/react-dropdown-menu": "^2.0.6",
     "@radix-ui/react-label": "^2.0.2",
     "@radix-ui/react-slot": "^1.0.2",
-    "@t3-oss/env-nextjs": "^0.7.1",
+    "@t3-oss/env-nextjs": "^0.8.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
     "drizzle-orm": "^0.29.0",
     "geist": "^1.1.0",
-    "next": "14.0.4",
+    "next": "14.1.0",
     "next-auth": "^4.24.5",
     "openai": "^4.24.1",
     "react": "^18",
@@ -49,7 +49,7 @@
     "autoprefixer": "^10.0.1",
     "drizzle-kit": "^0.20.6",
     "eslint": "^8.56.0",
-    "eslint-config-next": "14.0.4",
+    "eslint-config-next": "14.1.0",
     "eslint-plugin-drizzle": "^0.2.2",
     "postcss": "^8",
     "prettier": "^3.1.0",
@@ -57,8 +57,5 @@
     "tailwindcss": "^3.3.0",
     "tailwindcss-animate": "^1.0.7",
     "typescript": "^5.3.3"
-  },
-  "engines": {
-    "bun": "^1.0.0"
   }
 }
