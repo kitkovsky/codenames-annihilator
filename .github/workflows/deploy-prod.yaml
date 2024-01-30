@@ -33,7 +33,7 @@ jobs:
         run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
 
       - name: Pull env vars from vercel
-        run: vercel env pull --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+        run: vercel env pull --environment=production --token=${{ secrets.VERCEL_TOKEN }} .env
 
       - name: Update DB schema
         run: pnpm db:push
