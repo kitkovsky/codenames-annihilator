@@ -18,16 +18,16 @@ jobs:
         with:
           node-version: 20
 
-      - name: Setup bun
-        uses: oven-sh/setup-bun@v1
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
         with:
-          bun-version: latest
+          version: 8
 
       - name: Install dependencies
-        run: bun install --frozen-lockfile
+        run: pnpm install --frozen-lockfile
 
       - name: Install vercel CLI
-        run: bun add --global vercel@latest
+        run: pnpm add --global vercel@latest
 
       - name: Pull vercel environment information
         run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
@@ -36,7 +36,7 @@ jobs:
         run: vercel env pull --environment=production --token=${{ secrets.VERCEL_TOKEN }}
 
       - name: Update DB schema
-        run: bun db:push
+        run: pnpm db:push
 
       - name: Build
         run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
