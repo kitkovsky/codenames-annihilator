@@ -24,7 +24,7 @@ jobs:
           version: 8
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install
 
       - name: Install vercel CLI
         run: pnpm add --global vercel@latest

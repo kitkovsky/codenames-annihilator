@@ -39,7 +39,7 @@ jobs:
         run: vercel env pull --environment=preview --token=${{ secrets.VERCEL_TOKEN }} .env
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install
 
       - name: Run prettier and eslint
         run: pnpm lint
