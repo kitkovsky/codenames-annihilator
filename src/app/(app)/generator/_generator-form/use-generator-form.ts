@@ -3,7 +3,7 @@ import { useState, type Dispatch, type SetStateAction } from 'react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 
-import { generateAndSavePromptWithConnector } from '@/app/generator/_generator-form/actions'
+import { generateAndSavePromptWithConnector } from './actions'
 import { useLoadingState } from '@utils/loading-state.utils'
 
 export const MAX_PROMPT_WORDS_COUNT = 5
