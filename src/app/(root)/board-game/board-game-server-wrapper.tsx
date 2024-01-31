@@ -1,3 +1,6 @@
+import { Suspense } from 'react'
+import { unstable_noStore } from 'next/cache'
+
 import { range, uniqueRandomArray } from '@utils/array.utils'
 import { BoardGame } from './board-game'
 
@@ -15,12 +18,12 @@ export interface BoardGameProps {
   className?: string
 }
 
-// NOTE: this server component wrapper is here to generate the random info
-// of cards only on the server, so we don't get a hydration mismatch on the client
-// if they were generated in a 'use client' componenet
-export const BoardGameServerWrapper = (
-  props: BoardGameProps,
-): React.ReactElement => {
+// NOTE: we want this component to have randomized cards on every request,
+// so we opt it out of the caching that comes from partial prerendering with unstable_noStore()
+// the <Suspense> is only needed to mark the boundary between the static shell and the dynamic content
+const _BoardGameServerWrapper = (props: BoardGameProps): React.ReactElement => {
+  unstable_noStore()
+
   const { className } = props
   const randomCards = generateRandomCards()
 
@@ -43,6 +46,7 @@ const generateRandomCards = (): Card[] => {
     if (blueCardsIdxs.includes(idx)) color = 'blue'
     else if (redCardsIdxs.includes(idx)) color = 'red'
     else color = 'neutral'
+
     const flippedByDefault = color != 'neutral' && Math.random() > 0.5
 
     return {
@@ -54,3 +58,11 @@ const generateRandomCards = (): Card[] => {
 
   return cards
 }
+
+export const BoardGameServerWrapper = (
+  props: BoardGameProps,
+): React.ReactElement => (
+  <Suspense>
+    <_BoardGameServerWrapper {...props} />
+  </Suspense>
+)

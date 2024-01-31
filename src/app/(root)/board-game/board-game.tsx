@@ -21,12 +21,7 @@ export const BoardGame = (props: BoardGameProps): React.ReactElement => {
       )}
     >
       {cards.map((card) => (
-        <Card
-          color={card.color}
-          flippedByDefault={card.flippedByDefault}
-          idx={card.idx}
-          key={card.idx}
-        />
+        <Card key={card.idx} {...card} />
       ))}
     </div>
   )
