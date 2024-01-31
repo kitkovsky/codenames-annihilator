@@ -59,10 +59,19 @@ const generateRandomCards = (): Card[] => {
   return cards
 }
 
+const BlankBoardGame = (): React.ReactElement => {
+  const neutralCards = range(ALL_CARDS_COUNT).map((idx) => ({
+    color: 'neutral' as Card['color'],
+    flippedByDefault: false,
+    idx,
+  }))
+  return <BoardGame cards={neutralCards} />
+}
+
 export const BoardGameServerWrapper = (
   props: BoardGameProps,
 ): React.ReactElement => (
-  <Suspense>
+  <Suspense fallback={<BlankBoardGame />}>
     <_BoardGameServerWrapper {...props} />
   </Suspense>
 )
