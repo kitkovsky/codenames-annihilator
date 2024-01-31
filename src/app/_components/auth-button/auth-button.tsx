@@ -44,14 +44,14 @@ const _AuthButton = async (
   )
 }
 
-const SignInButton = (): React.ReactElement => (
-  <Link href="sign-in" variant="default">
+const SignInButton = (props: { className?: string }): React.ReactElement => (
+  <Link href="sign-in" variant="default" className={props.className}>
     Sign in
   </Link>
 )
 
 export const AuthButton = (props: _AuthButtonProps): React.ReactElement => (
-  <Suspense fallback={<SignInButton />}>
-    <_AuthButton className={props.className} />
+  <Suspense fallback={<SignInButton className={props.className} />}>
+    <_AuthButton {...props} />
   </Suspense>
 )
