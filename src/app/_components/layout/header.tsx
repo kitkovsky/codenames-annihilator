@@ -2,11 +2,12 @@ import { Link } from '@components/ui/link'
 import { AuthButton } from '@components/auth-button'
 import { HamburgerMenu } from './hamburger-menu'
 import { Logo } from '@components/logo'
+import { routes } from '@utils/routes.utils'
 
 export const NAV_LINKS = [
-  { href: '/generator', label: 'Generator' },
-  { href: '/flashcards', label: 'Flashcards' },
-  { href: '/faq', label: 'Why?' },
+  { href: routes.generator(), label: 'Generator' },
+  { href: routes.flashcards(), label: 'Flashcards' },
+  { href: routes.faq(), label: 'Why?' },
 ]
 
 export const Header = (): React.ReactElement => (

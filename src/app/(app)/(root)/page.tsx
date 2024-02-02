@@ -1,5 +1,6 @@
 import { BoardGame } from './board-game'
 import { Link } from '@components/ui/link'
+import { routes } from '@utils/routes.utils'
 
 export default function HomePage(): React.ReactElement {
   return (
@@ -28,7 +29,7 @@ const HeroText = (): React.ReactElement => (
 
     <Link
       variant="default"
-      href="/generator"
+      href={routes.generator()}
       className="mt-6 px-6 py-6 text-lg font-medium sm:mt-8"
     >
       Change your life now
@@ -38,7 +39,7 @@ const HeroText = (): React.ReactElement => (
       By signing up for Codenames Annihilator, you agree to our{' '}
       <Link
         variant="clear"
-        href="/terms-of-service"
+        href={routes.termsOfService()}
         className="p-0 text-sm font-medium text-white"
       >
         terms of service

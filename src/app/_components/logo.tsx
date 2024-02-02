@@ -1,6 +1,7 @@
 import NextLink from 'next/link'
 
 import { cn } from '@utils/cn.utils'
+import { routes } from '@utils/routes.utils'
 
 export interface LogoProps {
   className?: string
@@ -12,7 +13,7 @@ export const Logo = (props: LogoProps): React.ReactElement => {
 
   return (
     <NextLink
-      href="/"
+      href={routes.root()}
       className={cn('group flex flex-col font-bold transition-all', className)}
     >
       <span

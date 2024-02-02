@@ -6,6 +6,7 @@ import {
   AuthProviderButton,
   type AuthProviderButtonProps,
 } from './auth-provider-button'
+import { routes } from '@utils/routes.utils'
 
 const providers: AuthProviderButtonProps[] = [
   {
@@ -38,7 +39,7 @@ export default function SignInPage(): React.ReactElement {
             By signing up, you agree to our{' '}
             <Link
               variant="clear"
-              href="/terms-of-service"
+              href={routes.termsOfService()}
               className="p-0 text-xs font-medium text-white"
             >
               terms of service
