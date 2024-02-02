@@ -1,7 +1,6 @@
 import type { Metadata } from 'next'
 import { GeistSans } from 'geist/font/sans'
 
-import { Header } from '@components/layout/header'
 import { cn } from '@utils/cn.utils'
 import '@/styles/globals.css'
 
@@ -23,7 +22,6 @@ export default function RootLayout({
           'bg-background font-sans text-foreground',
         )}
       >
-        <Header />
         {children}
       </body>
     </html>

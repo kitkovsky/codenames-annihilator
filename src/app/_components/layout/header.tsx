@@ -1,7 +1,7 @@
 import { Link } from '@components/ui/link'
 import { AuthButton } from '@components/auth-button'
 import { HamburgerMenu } from './hamburger-menu'
-import { Logo } from './logo'
+import { Logo } from '@components/logo'
 
 export const NAV_LINKS = [
   { href: '/generator', label: 'Generator' },

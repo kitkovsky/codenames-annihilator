@@ -12,7 +12,7 @@ import {
   FormMessage,
 } from '@components/ui/form'
 import { Input } from '@components/ui/input'
-import { useGeneratorForm } from '@/app/generator/_generator-form/use-generator-form'
+import { useGeneratorForm } from './use-generator-form'
 import { cn } from '@utils/cn.utils'
 import { isEmpty } from '@utils/array.utils'
 

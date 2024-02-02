@@ -1,9 +1,9 @@
 import { Suspense } from 'react'
 
-import { Link } from '@components/ui/link'
 import { getServerAuthSession } from '@/server/auth'
 import { UserIcon } from '@components/layout/user-icon'
-import { LogOutButton } from '@components/auth-button/log-out-button'
+import { LogOutButton } from './log-out-button'
+import { SignInButton } from './sign-in-button'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -43,12 +43,6 @@ const _AuthButton = async (
     </div>
   )
 }
-
-const SignInButton = (props: { className?: string }): React.ReactElement => (
-  <Link href="sign-in" variant="default" className={props.className}>
-    Sign in
-  </Link>
-)
 
 export const AuthButton = (props: _AuthButtonProps): React.ReactElement => (
   <Suspense fallback={<SignInButton className={props.className} />}>

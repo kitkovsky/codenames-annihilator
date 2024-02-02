@@ -2,9 +2,10 @@ import { Suspense } from 'react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/solid'
 
 import { UserIcon } from './user-icon'
-import { Logo } from './logo'
+import { Logo } from '@components/logo'
 import { Link } from '@components/ui/link'
 import { LogOutButton } from '@components/auth-button/log-out-button'
+import { SignInButton } from '@components/auth-button/sign-in-button'
 import {
   Dialog,
   DialogContent,
@@ -101,9 +102,7 @@ const HamburgerMenuFooter = async (): Promise<React.ReactElement> => {
 
       {!user && (
         <DialogClose asChild className="w-full">
-          <Link href="sign-in" variant="default" className="w-full">
-            Sign in
-          </Link>
+          <SignInButton />
         </DialogClose>
       )}
     </div>
