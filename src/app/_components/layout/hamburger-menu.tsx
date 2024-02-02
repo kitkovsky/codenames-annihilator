@@ -2,7 +2,7 @@ import { Suspense } from 'react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/solid'
 
 import { UserIcon } from './user-icon'
-import { Logo } from './logo'
+import { Logo } from '@components/logo'
 import { Link } from '@components/ui/link'
 import { LogOutButton } from '@components/auth-button/log-out-button'
 import {
