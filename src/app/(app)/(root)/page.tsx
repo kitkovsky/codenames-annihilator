@@ -1,5 +1,6 @@
 import { BoardGame } from './board-game'
 import { Link } from '@components/ui/link'
+import { IP } from '@components/ip'
 import { routes } from '@utils/routes.utils'
 
 export default function HomePage(): React.ReactElement {
@@ -9,6 +10,7 @@ export default function HomePage(): React.ReactElement {
         <HeroText />
         <BoardGame className="mx-auto mt-8 max-w-md lg:mx-0 lg:mt-0 lg:shrink-0" />
       </div>
+      <IP />
     </div>
   )
 }

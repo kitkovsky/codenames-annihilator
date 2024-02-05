@@ -1,3 +1,4 @@
+// import { kv } from '@vercel/kv'
 import { InformationCircleIcon } from '@heroicons/react/20/solid'
 
 import { Dialog, DialogContent, DialogTrigger } from '@components/ui/dialog'
@@ -56,3 +57,14 @@ const HowDoesItWorkList = (): React.ReactElement => (
     </ul>
   </div>
 )
+
+// const Limiter = async (): Promise<React.ReactElement> => {
+//   // await kv.set('foo', 'bar')
+//   const kvValue = await kv.get<string>('foo')
+
+//   return (
+//     <div>
+//       <h1>kvValue: {kvValue}</h1>
+//     </div>
+//   )
+// }
