@@ -1,5 +1,6 @@
 import NextAuth from 'next-auth'
 import { type DefaultSession, type Session } from 'next-auth'
+import { type AdapterUser } from '@auth/core/adapters'
 import { DrizzleAdapter } from '@auth/drizzle-adapter'
 import GoogleProvider from 'next-auth/providers/google'
 import GithubProvider from 'next-auth/providers/github'
@@ -20,13 +21,21 @@ export const {
   auth,
 } = NextAuth({
   callbacks: {
-    session: ({ session }) => ({
-      ...session,
-      user: {
-        ...session.user,
-        id: session.user.id,
-      },
-    }),
+    session: (_params) => {
+      // next-auth types are a bit off
+      const params = _params as {
+        session: Session
+        user: AdapterUser
+      }
+
+      return {
+        ...params.session,
+        user: {
+          ...params.user,
+          id: params.user.id,
+        },
+      }
+    },
   },
   adapter: DrizzleAdapter(db),
   providers: [
