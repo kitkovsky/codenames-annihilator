@@ -10,7 +10,7 @@ const Dialog = DialogPrimitive.Root
 const DialogTrigger = DialogPrimitive.Trigger
 const DialogPortal = DialogPrimitive.Portal
 const DialogClose = DialogPrimitive.Close
-const DialogCloseAccessibilityClassNames =
+const dialogCloseAccessibilityClassNames =
   'rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground'
 
 const DialogOverlay = React.forwardRef<
@@ -33,10 +33,18 @@ const DialogContent = React.forwardRef<
   React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content> & {
     position?: 'center' | 'absolute'
     customClose?: boolean
+    onCloseClick?: () => void
   }
 >(
   (
-    { className, children, position = 'center', customClose, ...props },
+    {
+      className,
+      children,
+      position = 'center',
+      customClose,
+      onCloseClick,
+      ...props
+    },
     ref,
   ) => (
     <DialogPortal>
@@ -64,8 +72,9 @@ const DialogContent = React.forwardRef<
           <DialogPrimitive.Close
             className={cn(
               'absolute right-4 top-4',
-              DialogCloseAccessibilityClassNames,
+              dialogCloseAccessibilityClassNames,
             )}
+            onClick={onCloseClick}
           >
             <XMarkIcon className="h-6 w-6" />
             <span className="sr-only">Close</span>
@@ -137,7 +146,7 @@ export {
   DialogPortal,
   DialogOverlay,
   DialogClose,
-  DialogCloseAccessibilityClassNames,
+  dialogCloseAccessibilityClassNames,
   DialogTrigger,
   DialogContent,
   DialogHeader,

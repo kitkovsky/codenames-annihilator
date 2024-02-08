@@ -13,6 +13,7 @@ import { isEmpty, range } from '@utils/array.utils'
 import { getUserPromptsFromDB, getUserPromptsFromCookie } from '@rpc/prompts'
 import type { PromptWithConnector } from '@/server/db/schema/prompts'
 import { Skeleton } from '@components/ui/skeleton'
+import { FREE_GENERATIONS_LIMIT } from '@consts/generations.consts'
 
 const _PromptConnectorsList = async (): Promise<React.ReactElement> => {
   const session = await getServerAuthSession()
@@ -23,6 +24,15 @@ const _PromptConnectorsList = async (): Promise<React.ReactElement> => {
 
   return (
     <>
+      <div className="mb-2 flex flex-wrap items-center justify-between gap-2 py-1 text-lg sm:p-2">
+        <h1 className="text-sm font-semibold sm:text-base">
+          Recent generations
+        </h1>
+        <span className="w-fit rounded-md bg-light-gray px-2 py-1 text-sm font-semibold text-black-100">
+          Generations limit: {userPrompts.length}/{FREE_GENERATIONS_LIMIT}
+        </span>
+      </div>
+
       {isEmpty(userPrompts) && (
         <div className="mt-6 flex justify-center">
           <span className="text-sm text-muted-foreground">
@@ -46,21 +56,28 @@ const _PromptConnectorsList = async (): Promise<React.ReactElement> => {
 }
 
 const PromptConnectorsListSkeleton = (): React.ReactElement => (
-  <Table>
-    <PromptConnectorsTableHeader />
-    <TableBody>
-      {range(5).map((idx) => (
-        <TableRow key={idx}>
-          <TableCell>
-            <Skeleton className="h-5 w-36 rounded" />
-          </TableCell>
-          <TableCell>
-            <Skeleton className="h-5 w-64 rounded" />
-          </TableCell>
-        </TableRow>
-      ))}
-    </TableBody>
-  </Table>
+  <>
+    <div className="mb-2 flex justify-between p-2 text-lg">
+      <h1 className="font-semibold">Recent generations</h1>
+      <Skeleton className="h-7 w-40 rounded-md" />
+    </div>
+
+    <Table>
+      <PromptConnectorsTableHeader />
+      <TableBody>
+        {range(5).map((idx) => (
+          <TableRow key={idx}>
+            <TableCell className="pl-2 sm:pl-4">
+              <Skeleton className="h-5 w-20 rounded sm:w-36" />
+            </TableCell>
+            <TableCell className="px-2 sm:px-4">
+              <Skeleton className="h-5 w-36 rounded sm:w-64" />
+            </TableCell>
+          </TableRow>
+        ))}
+      </TableBody>
+    </Table>
+  </>
 )
 
 const PromptConnectorsTableHeader = (): React.ReactElement => (

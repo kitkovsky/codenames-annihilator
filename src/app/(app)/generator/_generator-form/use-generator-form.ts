@@ -3,10 +3,14 @@ import { useState, type Dispatch, type SetStateAction } from 'react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 
-import { generateAndSavePromptWithConnector } from './actions'
+import {
+  generateAndSavePromptWithConnector,
+  getDemoModalVisibility,
+  getGenerationsLimitModalVisibility,
+} from './actions'
 import { useLoadingState } from '@utils/loading-state.utils'
 
-export const MAX_PROMPT_WORDS_COUNT = 5
+const MAX_PROMPT_WORDS_COUNT = 5
 
 export type UseGeneratorFormReturn = {
   form: ReturnType<typeof useForm<FormValues>>
@@ -18,6 +22,10 @@ export type UseGeneratorFormReturn = {
   inputDisabled: boolean
   submitButtonDisabled: boolean
   loading: boolean
+  demoModalVisible: boolean
+  setDemoModalVisible: Dispatch<SetStateAction<boolean>>
+  generationsLimitModalVisible: boolean
+  setGenerationsLimitModalVisible: Dispatch<SetStateAction<boolean>>
 }
 
 const formSchema = z.object({ promptWord: z.string() })
@@ -26,6 +34,9 @@ type FormValues = z.infer<typeof formSchema>
 
 export const useGeneratorForm = (): UseGeneratorFormReturn => {
   const [promptWords, setPromptWords] = useState<string[]>([])
+  const [demoModalVisible, setDemoModalVisible] = useState(false)
+  const [generationsLimitModalVisible, setGenerationsLimitModalVisible] =
+    useState(false)
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -45,11 +56,24 @@ export const useGeneratorForm = (): UseGeneratorFormReturn => {
   }
 
   const _onGenerateSubmit = async (): Promise<void> => {
+    const shouldShowDemoModal = await getDemoModalVisibility()
+    if (shouldShowDemoModal) {
+      setDemoModalVisible(true)
+      return
+    }
+
+    const shouldShowGenerationsLimitModal =
+      await getGenerationsLimitModalVisibility()
+    if (shouldShowGenerationsLimitModal) {
+      setGenerationsLimitModalVisible(true)
+      return
+    }
+
     await generateAndSavePromptWithConnector(promptWords)
     setPromptWords([])
   }
 
-  const { loading, wrappedFn: onGenerateSubmit } =
+  const { loading: generateLoading, wrappedFn: onGenerateSubmit } =
     useLoadingState(_onGenerateSubmit)
 
   return {
@@ -61,6 +85,10 @@ export const useGeneratorForm = (): UseGeneratorFormReturn => {
     onGenerateSubmit,
     inputDisabled,
     submitButtonDisabled,
-    loading,
+    loading: generateLoading || demoModalVisible,
+    demoModalVisible,
+    setDemoModalVisible,
+    generationsLimitModalVisible,
+    setGenerationsLimitModalVisible,
   }
 }
