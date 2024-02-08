@@ -11,7 +11,7 @@ import {
   DialogContent,
   DialogTrigger,
   DialogClose,
-  DialogCloseAccessibilityClassNames,
+  dialogCloseAccessibilityClassNames,
 } from '@components/ui/dialog'
 import {
   Accordion,
@@ -48,7 +48,7 @@ export const HamburgerMenu = (
             <DialogClose asChild>
               <Logo size="sm" />
             </DialogClose>
-            <DialogClose className={DialogCloseAccessibilityClassNames}>
+            <DialogClose className={dialogCloseAccessibilityClassNames}>
               <XMarkIcon className="h-6 w-6" />
               <span className="sr-only">Close</span>
             </DialogClose>

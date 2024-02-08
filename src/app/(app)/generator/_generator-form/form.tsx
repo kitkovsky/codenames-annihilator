@@ -16,6 +16,7 @@ import { useGeneratorForm } from './use-generator-form'
 import { cn } from '@utils/cn.utils'
 import { isEmpty } from '@utils/array.utils'
 import { DemoVersionModal } from './demo-version-modal'
+import { GenerationsLimitModal } from './generations-limit-modal'
 
 export interface GeneratorFormProps {
   className?: string
@@ -38,6 +39,8 @@ export const GeneratorForm = (
     loading,
     demoModalVisible,
     setDemoModalVisible,
+    generationsLimitModalVisible,
+    setGenerationsLimitModalVisible,
   } = useGeneratorForm()
   const [animationParent] = useAutoAnimate({ duration: 150 })
 
@@ -138,6 +141,11 @@ export const GeneratorForm = (
         visible={demoModalVisible}
         setVisible={setDemoModalVisible}
         submitForm={onGenerateSubmit}
+      />
+
+      <GenerationsLimitModal
+        visible={generationsLimitModalVisible}
+        setVisible={setGenerationsLimitModalVisible}
       />
     </>
   )

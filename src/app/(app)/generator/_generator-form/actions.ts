@@ -13,6 +13,7 @@ import { getServerAuthSession } from '@/server/auth'
 import {
   LOCAL_PROMPTS_COOKIE_NAME,
   getUserPromptsFromCookie,
+  getUserPromptsFromDB,
 } from '@rpc/prompts'
 import { connectors, connectorWords } from '@/server/db/schema/connectors'
 import { createLocalPromptWithPromptWords } from '@utils/prompts.utils'
@@ -22,6 +23,7 @@ import {
 } from '@utils/connectors.utils'
 
 const DEMO_VERSION_MODAL_SHOWN_COOKIE_NAME = 'demo_version_modal_shown'
+const FREE_GENERATIONS_LIMIT = 5
 
 const generateAndSavePromptWithConnector = async (
   formPrompts: string[],
@@ -112,8 +114,19 @@ const saveModalShownCookie = (): void => {
   })
 }
 
+const getGenerationsLimitModalVisibility = async (): Promise<boolean> => {
+  const session = await getServerAuthSession()
+  const userId = session?.user.id
+  const userPrompts = userId
+    ? await getUserPromptsFromDB(userId)
+    : getUserPromptsFromCookie()
+
+  return userPrompts.length >= FREE_GENERATIONS_LIMIT
+}
+
 export {
   generateAndSavePromptWithConnector,
   getDemoModalVisibility,
   saveModalShownCookie,
+  getGenerationsLimitModalVisibility,
 }

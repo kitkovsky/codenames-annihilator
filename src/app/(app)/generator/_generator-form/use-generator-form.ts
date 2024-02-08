@@ -6,10 +6,11 @@ import { useForm } from 'react-hook-form'
 import {
   generateAndSavePromptWithConnector,
   getDemoModalVisibility,
+  getGenerationsLimitModalVisibility,
 } from './actions'
 import { useLoadingState } from '@utils/loading-state.utils'
 
-export const MAX_PROMPT_WORDS_COUNT = 5
+const MAX_PROMPT_WORDS_COUNT = 5
 
 export type UseGeneratorFormReturn = {
   form: ReturnType<typeof useForm<FormValues>>
@@ -23,6 +24,8 @@ export type UseGeneratorFormReturn = {
   loading: boolean
   demoModalVisible: boolean
   setDemoModalVisible: Dispatch<SetStateAction<boolean>>
+  generationsLimitModalVisible: boolean
+  setGenerationsLimitModalVisible: Dispatch<SetStateAction<boolean>>
 }
 
 const formSchema = z.object({ promptWord: z.string() })
@@ -32,6 +35,8 @@ type FormValues = z.infer<typeof formSchema>
 export const useGeneratorForm = (): UseGeneratorFormReturn => {
   const [promptWords, setPromptWords] = useState<string[]>([])
   const [demoModalVisible, setDemoModalVisible] = useState(false)
+  const [generationsLimitModalVisible, setGenerationsLimitModalVisible] =
+    useState(false)
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -52,12 +57,20 @@ export const useGeneratorForm = (): UseGeneratorFormReturn => {
 
   const _onGenerateSubmit = async (): Promise<void> => {
     const shouldShowDemoModal = await getDemoModalVisibility()
-    setDemoModalVisible(shouldShowDemoModal)
-
-    if (!shouldShowDemoModal) {
-      await generateAndSavePromptWithConnector(promptWords)
-      setPromptWords([])
+    if (shouldShowDemoModal) {
+      setDemoModalVisible(true)
+      return
     }
+
+    const shouldShowGenerationsLimitModal =
+      await getGenerationsLimitModalVisibility()
+    if (shouldShowGenerationsLimitModal) {
+      setGenerationsLimitModalVisible(true)
+      return
+    }
+
+    await generateAndSavePromptWithConnector(promptWords)
+    setPromptWords([])
   }
 
   const { loading: generateLoading, wrappedFn: onGenerateSubmit } =
@@ -75,5 +88,7 @@ export const useGeneratorForm = (): UseGeneratorFormReturn => {
     loading: generateLoading || demoModalVisible,
     demoModalVisible,
     setDemoModalVisible,
+    generationsLimitModalVisible,
+    setGenerationsLimitModalVisible,
   }
 }
