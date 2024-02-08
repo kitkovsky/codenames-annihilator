@@ -23,11 +23,7 @@ export const DemoVersionModal = (props: ModalProps): React.ReactElement => {
 
   return (
     <Dialog open={visible}>
-      <DialogContent
-        className="p-4"
-        onInteractOutside={() => console.log('interacting outside')}
-        customClose
-      >
+      <DialogContent className="p-4" customClose>
         <h1 className="text-lg font-medium">Heads-up!</h1>
         <p className="text-light-gray">
           This is a demo version of the generator. Unless you sign in, the words
