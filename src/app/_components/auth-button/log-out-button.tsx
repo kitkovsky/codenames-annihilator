@@ -14,7 +14,7 @@ export const LogOutButton = (props: LogOutButtonProps): React.ReactElement => {
 
   return (
     <button
-      className={cn('flex items-center text-sm', className)}
+      className={cn('flex w-full items-center text-sm', className)}
       onClick={() => signOut()}
     >
       <ArrowUpTrayIcon className="mr-2 h-4 w-4 rotate-90" />

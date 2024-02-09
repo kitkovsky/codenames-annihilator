@@ -32,8 +32,8 @@ const _AuthButton = async (
           </DropdownMenuTrigger>
 
           <DropdownMenuContent className="p-1" align="end">
-            <DropdownMenuItem className="hover:cursor-pointer">
-              <LogOutButton />
+            <DropdownMenuItem className="p-0 hover:cursor-pointer">
+              <LogOutButton className="px-2 py-1.5" />
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
