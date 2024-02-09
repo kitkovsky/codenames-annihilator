@@ -5,7 +5,7 @@ import { buttonVariants } from '@components/ui/button'
 import { cn } from '@utils/cn.utils'
 
 export interface LinkProps extends NextLinkProps, PropsWithChildren {
-  variant: 'default' | 'ghost' | 'clear' | 'custom'
+  variant: 'default' | 'ghost' | 'clear' | 'underline' | 'custom'
   className?: string
 }
 
@@ -14,6 +14,7 @@ const typeToClassName: Record<LinkProps['variant'], string> = {
   ghost: cn(buttonVariants({ variant: 'ghost' })),
   clear:
     'hover:text-foreground/85 px-4 py-2 text-base font-medium transition-all',
+  underline: 'text-primary no-underline hover:underline',
   custom: '',
 }
 
