@@ -25,7 +25,7 @@ export const Header = (): React.ReactElement => (
           </div>
         </div>
 
-        <AuthButton className="hidden md:block" />
+        <AuthButton className="hidden max-h-10 md:block" />
         <HamburgerMenu className="block md:hidden" />
       </nav>
     </div>

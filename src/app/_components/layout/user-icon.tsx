@@ -13,8 +13,8 @@ export const UserIcon = async (
   props: UserIconProps,
 ): Promise<React.ReactElement> => {
   const { user, size = 'lg' } = props
-  const imageSize = size === 'sm' ? 32 : 48
-  const iconSize = size === 'sm' ? 'h-8 w-8' : 'h-12 w-12'
+  const imageSize = size === 'sm' ? 32 : 40
+  const iconSize = size === 'sm' ? 'h-8 w-8' : 'h-10 w-10'
 
   return (
     <>
@@ -24,6 +24,7 @@ export const UserIcon = async (
           width={imageSize}
           height={imageSize}
           className="rounded-full bg-primary"
+          priority
           alt="user image"
         />
       )}
