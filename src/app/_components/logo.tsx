@@ -14,7 +14,10 @@ export const Logo = (props: LogoProps): React.ReactElement => {
   return (
     <NextLink
       href={routes.root()}
-      className={cn('group flex flex-col font-bold transition-all', className)}
+      className={cn(
+        'group flex flex-col justify-center font-bold transition-all',
+        className,
+      )}
     >
       <span
         className={cn(
