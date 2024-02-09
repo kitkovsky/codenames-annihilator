@@ -81,9 +81,31 @@ const config: Config = {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
       },
+      typography: () => ({
+        DEFAULT: {
+          css: {
+            '--tw-prose-body': colors.white,
+            '--tw-prose-headings': colors.white,
+            '--tw-prose-lead': colors.white,
+            '--tw-prose-links': colors.white,
+            '--tw-prose-bold': colors.white,
+            '--tw-prose-counters': colors.white,
+            '--tw-prose-bullets': colors.white,
+            '--tw-prose-hr': colors.white,
+            '--tw-prose-quotes': colors.white,
+            '--tw-prose-quote-borders': colors.white,
+            '--tw-prose-captions': colors.white,
+            '--tw-prose-code': colors.white,
+            '--tw-prose-pre-code': colors.white,
+            '--tw-prose-pre-bg': colors.white,
+            '--tw-prose-th-borders': colors.white,
+            '--tw-prose-td-borders': colors.white,
+          },
+        },
+      }),
     },
   },
-  plugins: [require('tailwindcss-animate')],
+  plugins: [require('tailwindcss-animate'), require('@tailwindcss/typography')],
 }
 
 export default config
