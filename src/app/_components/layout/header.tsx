@@ -7,7 +7,7 @@ import { routes } from '@utils/routes.utils'
 export const NAV_LINKS = [
   { href: routes.generator(), label: 'Generator' },
   { href: routes.flashcards(), label: 'Flashcards' },
-  { href: routes.faq(), label: 'Why?' },
+  { href: routes.faq(), label: 'FAQ' },
 ]
 
 export const Header = (): React.ReactElement => (
