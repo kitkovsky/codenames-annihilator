@@ -7,7 +7,7 @@ import { db } from '@/server/db'
 import {
   promptWords,
   prompts,
-  type PromptWithConnector,
+  type PromptWithClue,
 } from '@/server/db/schema/prompts'
 import { getServerAuthSession } from '@/server/auth'
 import {
@@ -15,17 +15,14 @@ import {
   getUserPromptsFromCookie,
   getUserPromptsFromDB,
 } from '@rpc/prompts'
-import { connectors, connectorWords } from '@/server/db/schema/connectors'
+import { clues, clueWords } from '@/server/db/schema/clues'
 import { createLocalPromptWithPromptWords } from '@utils/prompts.utils'
-import {
-  createLocalConnectorWithConnectorWords,
-  getConnectorWords,
-} from '@utils/connectors.utils'
+import { createLocalClueWithClueWords, getClueWords } from '@utils/clues.utils'
 import { FREE_GENERATIONS_LIMIT } from '@consts/generations.consts'
 
 const DEMO_VERSION_MODAL_SHOWN_COOKIE_NAME = 'demo_version_modal_shown'
 
-const generateAndSavePromptWithConnector = async (
+const generateAndSavePromptWithClue = async (
   formPrompts: string[],
 ): Promise<void> => {
   const session = await getServerAuthSession()
@@ -41,19 +38,20 @@ const generateAndSaveToCookie = async (
   promptWords: string[],
 ): Promise<void> => {
   const promptWithPromptWords = createLocalPromptWithPromptWords(promptWords)
-  const connectorWithConnectorWords =
-    await createLocalConnectorWithConnectorWords(promptWithPromptWords.id)
+  const clueWithClueWords = await createLocalClueWithClueWords(
+    promptWithPromptWords.id,
+  )
 
-  const promptWithConnector: PromptWithConnector = {
+  const promptWithClue: PromptWithClue = {
     ...promptWithPromptWords,
-    connector: connectorWithConnectorWords,
+    clue: clueWithClueWords,
   }
 
   const existingPrompts = getUserPromptsFromCookie()
 
   cookies().set(
     LOCAL_PROMPTS_COOKIE_NAME,
-    JSON.stringify([promptWithConnector, ...existingPrompts]),
+    JSON.stringify([promptWithClue, ...existingPrompts]),
   )
 }
 
@@ -61,7 +59,7 @@ const generateAndSaveToDB = async (
   formPromptWords: string[],
   userId: string,
 ): Promise<void> => {
-  const aiConnectorWords = await getConnectorWords({
+  const aiClueWords = await getClueWords({
     source: 'openAI',
     promptWords: formPromptWords.join(','),
   })
@@ -80,16 +78,16 @@ const generateAndSaveToDB = async (
       })),
     )
 
-    const { insertedConnectorId } = (
+    const { insertedClueId } = (
       await tx
-        .insert(connectors)
+        .insert(clues)
         .values({ promptId: insertedPromptId })
-        .returning({ insertedConnectorId: connectors.id })
+        .returning({ insertedClueId: clues.id })
     )[0]!
-    await tx.insert(connectorWords).values(
-      aiConnectorWords.map((connectorWord) => ({
-        connectorId: insertedConnectorId,
-        word: connectorWord,
+    await tx.insert(clueWords).values(
+      aiClueWords.map((clueWord) => ({
+        clueId: insertedClueId,
+        word: clueWord,
       })),
     )
   })
@@ -125,7 +123,7 @@ const getGenerationsLimitModalVisibility = async (): Promise<boolean> => {
 }
 
 export {
-  generateAndSavePromptWithConnector,
+  generateAndSavePromptWithClue,
   getDemoModalVisibility,
   saveModalShownCookie,
   getGenerationsLimitModalVisibility,

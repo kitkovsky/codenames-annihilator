@@ -11,11 +11,11 @@ import {
 import { getServerAuthSession } from '@/server/auth'
 import { isEmpty, range } from '@utils/array.utils'
 import { getUserPromptsFromDB, getUserPromptsFromCookie } from '@rpc/prompts'
-import type { PromptWithConnector } from '@/server/db/schema/prompts'
+import type { PromptWithClue } from '@/server/db/schema/prompts'
 import { Skeleton } from '@components/ui/skeleton'
 import { FREE_GENERATIONS_LIMIT } from '@consts/generations.consts'
 
-const _PromptConnectorsList = async (): Promise<React.ReactElement> => {
+const _PromptCluesList = async (): Promise<React.ReactElement> => {
   const session = await getServerAuthSession()
   const userId = session?.user.id
   const userPrompts = userId
@@ -36,17 +36,17 @@ const _PromptConnectorsList = async (): Promise<React.ReactElement> => {
       {isEmpty(userPrompts) && (
         <div className="mt-6 flex justify-center">
           <span className="text-sm text-muted-foreground">
-            A list of your recent searches, looking empty
+            A list of your recent generations, looking empty
           </span>
         </div>
       )}
 
       {!isEmpty(userPrompts) && (
         <Table>
-          <PromptConnectorsTableHeader />
+          <PromptCluesTableHeader />
           <TableBody>
             {userPrompts.map((prompt) => (
-              <PromptConnectorsTableRow prompt={prompt} key={prompt.id} />
+              <PromptCluesTableRow prompt={prompt} key={prompt.id} />
             ))}
           </TableBody>
         </Table>
@@ -55,7 +55,7 @@ const _PromptConnectorsList = async (): Promise<React.ReactElement> => {
   )
 }
 
-const PromptConnectorsListSkeleton = (): React.ReactElement => (
+const PromptCluesListSkeleton = (): React.ReactElement => (
   <>
     <div className="mb-2 flex justify-between p-2 text-lg">
       <h1 className="font-semibold">Recent generations</h1>
@@ -63,7 +63,7 @@ const PromptConnectorsListSkeleton = (): React.ReactElement => (
     </div>
 
     <Table>
-      <PromptConnectorsTableHeader />
+      <PromptCluesTableHeader />
       <TableBody>
         {range(5).map((idx) => (
           <TableRow key={idx}>
@@ -80,37 +80,37 @@ const PromptConnectorsListSkeleton = (): React.ReactElement => (
   </>
 )
 
-const PromptConnectorsTableHeader = (): React.ReactElement => (
+const PromptCluesTableHeader = (): React.ReactElement => (
   <TableHeader>
     <TableRow>
       <TableHead className="min-w-32 pl-2 sm:pl-4">Prompt</TableHead>
-      <TableHead className="px-2 sm:px-4">Connectors</TableHead>
+      <TableHead className="px-2 sm:px-4">Clues</TableHead>
     </TableRow>
   </TableHeader>
 )
 
-const PromptConnectorsTableRow = (props: {
-  prompt: PromptWithConnector
+const PromptCluesTableRow = (props: {
+  prompt: PromptWithClue
 }): React.ReactElement => {
   const { prompt } = props
 
   const promptWords = prompt.promptWords
     .map((promptWord) => promptWord.word)
     .join(', ')
-  const connectorWords = prompt.connector.connectorWords
-    .map((connectorWord) => connectorWord.word)
+  const clueWords = prompt.clue.clueWords
+    .map((clueWord) => clueWord.word)
     .join(', ')
 
   return (
     <TableRow>
       <TableCell className="pl-2 sm:pl-4">{promptWords}</TableCell>
-      <TableCell className="px-2 sm:px-4">{connectorWords}</TableCell>
+      <TableCell className="px-2 sm:px-4">{clueWords}</TableCell>
     </TableRow>
   )
 }
 
-export const PromptConnectorsList = (): React.ReactElement => (
-  <Suspense fallback={<PromptConnectorsListSkeleton />}>
-    <_PromptConnectorsList />
+export const PromptCluesList = (): React.ReactElement => (
+  <Suspense fallback={<PromptCluesListSkeleton />}>
+    <_PromptCluesList />
   </Suspense>
 )

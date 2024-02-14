@@ -77,8 +77,8 @@ const HowItWorks = (): React.ReactElement => {
           Connect words like no one else
         </h2>
         <p className="mt-3 text-lg text-light-gray">
-          Our connectors generator uses bleeding edge AI algorithms to come up
-          with the perfect clues to connect your words.
+          Our clues generator uses bleeding edge AI algorithms to come up with
+          the perfect clues to connect your words.
         </p>
 
         <div className="mt-10 space-y-10">

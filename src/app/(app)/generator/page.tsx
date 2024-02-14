@@ -2,7 +2,7 @@ import { InformationCircleIcon } from '@heroicons/react/20/solid'
 
 import { Dialog, DialogContent, DialogTrigger } from '@components/ui/dialog'
 import { GeneratorForm } from './_generator-form'
-import { PromptConnectorsList } from './prompt-connectors-list'
+import { PromptCluesList } from './prompt-clues-list'
 
 export default function GeneratorPage(): React.ReactElement {
   return (
@@ -10,7 +10,7 @@ export default function GeneratorPage(): React.ReactElement {
       <div className="mx-auto max-w-4xl px-4 sm:px-6 sm:pt-4 lg:px-8 lg:pt-8">
         <div className="relative flex flex-col items-center rounded-md border border-gray-100 p-2 sm:p-4">
           <h1 className="mb-4 text-xl font-semibold sm:mb-8 sm:text-3xl">
-            Connectors generator
+            Clues generator
           </h1>
 
           <Dialog>
@@ -37,7 +37,7 @@ export default function GeneratorPage(): React.ReactElement {
       <div className="my-4 h-px w-full bg-gray-100" />
 
       <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
-        <PromptConnectorsList />
+        <PromptCluesList />
       </div>
     </>
   )
@@ -48,7 +48,7 @@ const HowDoesItWorkList = (): React.ReactElement => (
     <h2 className="text-lg font-medium">How does it work?</h2>
     <ul className="flex flex-col gap-0.5 text-light-gray">
       <li>Create a list of 2 to 5 prompt words.</li>
-      <li>These will be analyzed to generate a list of 5 connecting words.</li>
+      <li>These will be analyzed to generate a list of 5 clues.</li>
       <li>
         <span className="font-medium text-primary">Annihilate </span>
         your opponents.

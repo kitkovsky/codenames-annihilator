@@ -2,40 +2,37 @@ import OpenAI from 'openai'
 
 import { range } from '@utils/array.utils'
 import { env } from '@/env'
-import type {
-  ConnectorWord,
-  ConnectorWithConnectorWords,
-} from '@/server/db/schema/connectors'
+import type { ClueWord, ClueWithClueWords } from '@/server/db/schema/clues'
 
-export const createLocalConnectorWithConnectorWords = async (
+export const createLocalClueWithClueWords = async (
   promptId: number,
-): Promise<ConnectorWithConnectorWords> => {
-  const connectorId = Math.floor(Math.random() * 1_000_000)
-  const rawConnectorWords = await getConnectorWords({ source: 'random' })
-  const connectorWords: ConnectorWord[] = rawConnectorWords.map((word) => ({
+): Promise<ClueWithClueWords> => {
+  const clueId = Math.floor(Math.random() * 1_000_000)
+  const rawClueWords = await getClueWords({ source: 'random' })
+  const clueWords: ClueWord[] = rawClueWords.map((word) => ({
     id: Math.floor(Math.random() * 1_000_000),
-    connectorId,
+    clueId,
     word,
   }))
-  const connectorWithConnectorWords: ConnectorWithConnectorWords = {
-    id: connectorId,
+  const clueWithClueWords: ClueWithClueWords = {
+    id: clueId,
     createdAt: String(new Date()),
     promptId,
-    connectorWords,
+    clueWords,
   }
 
-  return connectorWithConnectorWords
+  return clueWithClueWords
 }
 
-type GetConnectorWordsArgs =
+type GetClueWordsArgs =
   | { source: 'random' }
   | { source: 'openAI'; promptWords: string }
 
-export const getConnectorWords = async (
-  args: GetConnectorWordsArgs,
+export const getClueWords = async (
+  args: GetClueWordsArgs,
 ): Promise<string[]> => {
   const { source } = args
-  const connectorWords: string[] = []
+  const clueWords: string[] = []
 
   if (source === 'random') {
     await Promise.all(
@@ -50,7 +47,7 @@ export const getConnectorWords = async (
         )
 
         const json = (await res.json()) as { word: string }
-        connectorWords.push(json.word)
+        clueWords.push(json.word)
       }),
     )
   }
@@ -86,15 +83,15 @@ export const getConnectorWords = async (
       responseWords
         ?.split(',')
         .map((word) => word.replace(/\s/g, ''))
-        .forEach((word) => connectorWords.push(word))
+        .forEach((word) => clueWords.push(word))
     }
 
     if (!responseWords?.includes(',')) {
-      responseWords?.split(' ').forEach((word) => connectorWords.push(word))
+      responseWords?.split(' ').forEach((word) => clueWords.push(word))
     }
   }
 
-  return connectorWords
+  return clueWords
 }
 
 const openAIRules = [

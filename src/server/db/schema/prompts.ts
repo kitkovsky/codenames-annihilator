@@ -3,16 +3,13 @@ import { text, integer, sqliteTable, index } from 'drizzle-orm/sqlite-core'
 
 import { users } from '@/server/db/schema/users'
 import { defaultCreatedAt } from '@/server/db/utils'
-import {
-  connectors,
-  type ConnectorWithConnectorWords,
-} from '@/server/db/schema/connectors'
+import { clues, type ClueWithClueWords } from '@/server/db/schema/clues'
 
 export type Prompt = typeof prompts.$inferSelect
 export type PromptWord = typeof promptWords.$inferSelect
 export type PromptWithPromptWords = Prompt & { promptWords: PromptWord[] }
-export type PromptWithConnector = PromptWithPromptWords & {
-  connector: ConnectorWithConnectorWords
+export type PromptWithClue = PromptWithPromptWords & {
+  clue: ClueWithClueWords
 }
 
 export const prompts = sqliteTable(
@@ -31,9 +28,9 @@ export const prompts = sqliteTable(
 
 export const promptsRelations = relations(prompts, ({ one, many }) => ({
   promptWords: many(promptWords),
-  connector: one(connectors, {
+  clue: one(clues, {
     fields: [prompts.id],
-    references: [connectors.promptId],
+    references: [clues.promptId],
   }),
   author: one(users, {
     fields: [prompts.authorId],

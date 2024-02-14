@@ -4,7 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 
 import {
-  generateAndSavePromptWithConnector,
+  generateAndSavePromptWithClue,
   getDemoModalVisibility,
   getGenerationsLimitModalVisibility,
 } from './actions'
@@ -69,7 +69,7 @@ export const useGeneratorForm = (): UseGeneratorFormReturn => {
       return
     }
 
-    await generateAndSavePromptWithConnector(promptWords)
+    await generateAndSavePromptWithClue(promptWords)
     setPromptWords([])
   }
 

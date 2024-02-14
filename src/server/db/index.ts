@@ -3,7 +3,7 @@ import { createClient } from '@libsql/client'
 
 import * as usersSchema from '@/server/db/schema/users'
 import * as promptsSchema from '@/server/db/schema/prompts'
-import * as connectorsSchema from '@/server/db/schema/connectors'
+import * as cluesSchema from '@/server/db/schema/clues'
 import * as authSchema from '@/server/db/schema/auth'
 import { env } from '@/env'
 
@@ -16,7 +16,7 @@ export const db = drizzle(client, {
   schema: {
     ...usersSchema,
     ...promptsSchema,
-    ...connectorsSchema,
+    ...cluesSchema,
     ...authSchema,
   },
   logger: env.NODE_ENV === 'development',
