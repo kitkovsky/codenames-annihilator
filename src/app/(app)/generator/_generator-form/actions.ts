@@ -19,6 +19,7 @@ import { clues, clueWords } from '@/server/db/schema/clues'
 import { createLocalPromptWithPromptWords } from '@utils/prompts.utils'
 import { createLocalClueWithClueWords, getClueWords } from '@utils/clues.utils'
 import { FREE_GENERATIONS_LIMIT } from '@consts/generations.consts'
+import { routes } from '@utils/routes.utils'
 
 const DEMO_VERSION_MODAL_SHOWN_COOKIE_NAME = 'demo_version_modal_shown'
 
@@ -31,7 +32,7 @@ const generateAndSavePromptWithClue = async (
   if (!userId) await generateAndSaveToCookie(formPrompts)
   if (userId) await generateAndSaveToDB(formPrompts, userId)
 
-  revalidatePath('/generate')
+  revalidatePath(routes.generator())
 }
 
 const generateAndSaveToCookie = async (
