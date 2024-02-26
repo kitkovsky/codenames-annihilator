@@ -1,13 +1,17 @@
 import { type NextRequest, NextResponse } from 'next/server'
 
-const SESSION_COOKIE_NAME = 'authjs.session-token'
+// next-auth uses two different session cookie names in development and production
+const DEV_SESSION_COOKIE_NAME = 'authjs.session-token'
+const PROD_SESSION_COOKIE_NAME = '__Secure-authjs.session-token'
 export const GHOST_USER_ID_COOKIE_NAME = 'ghost_user_id'
 
 export default async function middleware(
   request: NextRequest,
 ): Promise<NextResponse> {
   const response = NextResponse.next()
-  const hasSessionCookie = request.cookies.has(SESSION_COOKIE_NAME)
+  const hasSessionCookie =
+    request.cookies.has(DEV_SESSION_COOKIE_NAME) ||
+    request.cookies.has(PROD_SESSION_COOKIE_NAME)
   const hasGhostUserIdCookie = request.cookies.has(GHOST_USER_ID_COOKIE_NAME)
 
   if (!hasSessionCookie && !hasGhostUserIdCookie) {
