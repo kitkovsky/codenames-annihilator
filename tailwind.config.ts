@@ -11,6 +11,8 @@ export const colors = {
   green: '#369b6e',
   red: '#cc241d',
   blue: '#52a9ff',
+  orange: '#f5a523',
+  ['mint-green']: '#50e3c3',
 }
 
 const config: Config = {
