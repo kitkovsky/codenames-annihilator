@@ -1,6 +1,6 @@
 import { Suspense } from 'react'
 
-import { getServerAuthSession } from '@/server/auth'
+import { getServerCurrentUser } from '@/server/auth'
 import { getUserFlashcards } from '@rpc/flashcards'
 import {
   Table,
@@ -20,8 +20,7 @@ import { Skeleton } from '@components/ui/skeleton'
 import { range } from '@utils/array.utils'
 
 const _FlashcardsTable = async (): Promise<React.ReactElement> => {
-  const session = await getServerAuthSession()
-  const user = session?.user
+  const user = await getServerCurrentUser()
 
   if (!user) {
     return <div>TODO: maybe? implement saving to cookies/local storage</div>
