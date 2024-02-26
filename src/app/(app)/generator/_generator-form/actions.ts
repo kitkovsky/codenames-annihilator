@@ -20,6 +20,10 @@ import { createLocalPromptWithPromptWords } from '@utils/prompts.utils'
 import { createLocalClueWithClueWords, getClueWords } from '@utils/clues.utils'
 import { FREE_GENERATIONS_LIMIT } from '@consts/generations.consts'
 import { routes } from '@utils/routes.utils'
+import {
+  FLASHCARD_STATES_ENUM,
+  flashcards,
+} from '@/server/db/schema/flashcards'
 
 const DEMO_VERSION_MODAL_SHOWN_COOKIE_NAME = 'demo_version_modal_shown'
 
@@ -91,6 +95,13 @@ const generateAndSaveToDB = async (
         word: clueWord,
       })),
     )
+
+    await tx.insert(flashcards).values({
+      authorId: userId,
+      promptId: insertedPromptId,
+      clueId: insertedClueId,
+      state: FLASHCARD_STATES_ENUM.NOT_PRACTISED,
+    })
   })
 }
 
