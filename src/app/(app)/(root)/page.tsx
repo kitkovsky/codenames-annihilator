@@ -78,7 +78,7 @@ const HowItWorks = (): React.ReactElement => {
         </h2>
         <p className="mt-3 text-lg text-light-gray">
           Our clues generator uses bleeding edge AI algorithms to come up with
-          the perfect clues to connect your words.
+          perfect clues to connect your words.
         </p>
 
         <div className="mt-10 space-y-10">
