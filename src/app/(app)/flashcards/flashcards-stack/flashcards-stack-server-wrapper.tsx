@@ -5,12 +5,7 @@ import { getUserFlashcards } from '@rpc/flashcards'
 import { FlashcardsStack } from './flashcards-stack'
 
 const _FlashcardsStackServerWrapper = async (): Promise<React.ReactElement> => {
-  const user = await getServerCurrentUser()
-
-  if (!user) {
-    return <div>TODO: maybe? implement saving to cookies/local storage</div>
-  }
-
+  const { user } = await getServerCurrentUser()
   const flashcards = await getUserFlashcards(user.id, true)
 
   return <FlashcardsStack flashcards={flashcards} />
