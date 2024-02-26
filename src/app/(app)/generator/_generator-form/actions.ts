@@ -9,7 +9,7 @@ import {
   prompts,
   type PromptWithClue,
 } from '@/server/db/schema/prompts'
-import { getServerAuthSession } from '@/server/auth'
+import { getServerCurrentUser } from '@/server/auth'
 import {
   LOCAL_PROMPTS_COOKIE_NAME,
   getUserPromptsFromCookie,
@@ -30,8 +30,8 @@ const DEMO_VERSION_MODAL_SHOWN_COOKIE_NAME = 'demo_version_modal_shown'
 const generateAndSavePromptWithClue = async (
   formPrompts: string[],
 ): Promise<void> => {
-  const session = await getServerAuthSession()
-  const userId = session?.user.id
+  const user = await getServerCurrentUser()
+  const userId = user?.id
 
   if (!userId) await generateAndSaveToCookie(formPrompts)
   if (userId) await generateAndSaveToDB(formPrompts, userId)
@@ -107,10 +107,10 @@ const generateAndSaveToDB = async (
 
 const getDemoModalVisibility = async (): Promise<boolean> => {
   const cookieStore = cookies()
-  const session = await getServerAuthSession()
+  const user = await getServerCurrentUser()
 
   const shouldShowDemoModal =
-    !cookieStore.has(DEMO_VERSION_MODAL_SHOWN_COOKIE_NAME) && !session?.user
+    !cookieStore.has(DEMO_VERSION_MODAL_SHOWN_COOKIE_NAME) && !user
 
   return shouldShowDemoModal
 }
@@ -125,8 +125,8 @@ const saveModalShownCookie = (): void => {
 }
 
 const getGenerationsLimitModalVisibility = async (): Promise<boolean> => {
-  const session = await getServerAuthSession()
-  const userId = session?.user.id
+  const user = await getServerCurrentUser()
+  const userId = user?.id
   const userPrompts = userId
     ? await getUserPromptsFromDB(userId)
     : getUserPromptsFromCookie()

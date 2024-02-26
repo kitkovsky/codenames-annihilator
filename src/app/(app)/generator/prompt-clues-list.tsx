@@ -8,7 +8,7 @@ import {
   TableHeader,
   TableRow,
 } from '@components/ui/table'
-import { getServerAuthSession } from '@/server/auth'
+import { getServerCurrentUser } from '@/server/auth'
 import { isEmpty, range } from '@utils/array.utils'
 import { getUserPromptsFromDB, getUserPromptsFromCookie } from '@rpc/prompts'
 import type { PromptWithClue } from '@/server/db/schema/prompts'
@@ -16,8 +16,8 @@ import { Skeleton } from '@components/ui/skeleton'
 import { FREE_GENERATIONS_LIMIT } from '@consts/generations.consts'
 
 const _PromptCluesList = async (): Promise<React.ReactElement> => {
-  const session = await getServerAuthSession()
-  const userId = session?.user.id
+  const user = await getServerCurrentUser()
+  const userId = user?.id
   const userPrompts = userId
     ? await getUserPromptsFromDB(userId)
     : getUserPromptsFromCookie()

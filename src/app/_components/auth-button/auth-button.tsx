@@ -1,6 +1,6 @@
 import { Suspense } from 'react'
 
-import { getServerAuthSession } from '@/server/auth'
+import { getServerCurrentUser } from '@/server/auth'
 import { UserIcon } from '@components/layout/user-icon'
 import { LogOutButton } from './log-out-button'
 import { SignInButton } from './sign-in-button'
@@ -20,8 +20,7 @@ const _AuthButton = async (
 ): Promise<React.ReactElement> => {
   const { className } = props
 
-  const session = await getServerAuthSession()
-  const user = session?.user
+  const user = await getServerCurrentUser()
 
   return (
     <div className={className}>

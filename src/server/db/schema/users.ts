@@ -4,6 +4,9 @@ import { text, integer, sqliteTable } from 'drizzle-orm/sqlite-core'
 import { prompts } from '@/server/db/schema/prompts'
 import { defaultCreatedAt } from '@/server/db/utils'
 
+export type User = typeof users.$inferSelect
+export type AuthUser = Omit<User, 'createdAt'>
+
 export const users = sqliteTable('user', {
   id: text('id').notNull().primaryKey(),
   name: text('name'),

@@ -20,7 +20,7 @@ import {
   AccordionTrigger,
 } from '@components/ui/accordion'
 import { NAV_LINKS } from './header'
-import { getServerAuthSession } from '@/server/auth'
+import { getServerCurrentUser } from '@/server/auth'
 import { cn } from '@utils/cn.utils'
 
 export interface HamburgerMenuProps {
@@ -78,8 +78,7 @@ export const HamburgerMenu = (
 }
 
 const HamburgerMenuFooter = async (): Promise<React.ReactElement> => {
-  const session = await getServerAuthSession()
-  const user = session?.user
+  const user = await getServerCurrentUser()
 
   return (
     <div className="px-6 pb-6">
