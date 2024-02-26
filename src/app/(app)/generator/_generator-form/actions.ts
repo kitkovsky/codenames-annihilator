@@ -2,70 +2,61 @@
 
 import { revalidatePath } from 'next/cache'
 import { cookies } from 'next/headers'
+import { eq } from 'drizzle-orm'
 
 import { db } from '@/server/db'
-import {
-  promptWords,
-  prompts,
-  type PromptWithClue,
-} from '@/server/db/schema/prompts'
+import { promptWords, prompts } from '@/server/db/schema/prompts'
 import { getServerCurrentUser } from '@/server/auth'
-import {
-  LOCAL_PROMPTS_COOKIE_NAME,
-  getUserPromptsFromCookie,
-  getUserPromptsFromDB,
-} from '@rpc/prompts'
+import { getUserPrompts } from '@rpc/prompts'
 import { clues, clueWords } from '@/server/db/schema/clues'
-import { createLocalPromptWithPromptWords } from '@utils/prompts.utils'
-import { createLocalClueWithClueWords, getClueWords } from '@utils/clues.utils'
+import { getClueWords } from '@utils/clues.utils'
 import { FREE_GENERATIONS_LIMIT } from '@consts/generations.consts'
 import { routes } from '@utils/routes.utils'
 import {
   FLASHCARD_STATES_ENUM,
   flashcards,
 } from '@/server/db/schema/flashcards'
+import { users, type NewUser } from '@/server/db/schema/users'
 
 const DEMO_VERSION_MODAL_SHOWN_COOKIE_NAME = 'demo_version_modal_shown'
 
 const generateAndSavePromptWithClue = async (
   formPrompts: string[],
 ): Promise<void> => {
-  const user = await getServerCurrentUser()
-  const userId = user?.id
+  const { user, isGhostUser } = await getServerCurrentUser()
+  const userId = user.id
 
-  if (!userId) await generateAndSaveToCookie(formPrompts)
-  if (userId) await generateAndSaveToDB(formPrompts, userId)
+  if (isGhostUser) {
+    const userExistsInDB = await db.query.users.findFirst({
+      where: eq(users.id, userId),
+    })
 
-  revalidatePath(routes.generator())
-}
-
-const generateAndSaveToCookie = async (
-  promptWords: string[],
-): Promise<void> => {
-  const promptWithPromptWords = createLocalPromptWithPromptWords(promptWords)
-  const clueWithClueWords = await createLocalClueWithClueWords(
-    promptWithPromptWords.id,
-  )
-
-  const promptWithClue: PromptWithClue = {
-    ...promptWithPromptWords,
-    clue: clueWithClueWords,
+    if (!userExistsInDB) {
+      const newGhostUser: NewUser = {
+        id: userId,
+        email: 'ghost@user.com',
+        ghostUser: true,
+      }
+      await db.insert(users).values(newGhostUser)
+    }
   }
 
-  const existingPrompts = getUserPromptsFromCookie()
-
-  cookies().set(
-    LOCAL_PROMPTS_COOKIE_NAME,
-    JSON.stringify([promptWithClue, ...existingPrompts]),
+  await generateAndSaveToDB(
+    formPrompts,
+    userId,
+    isGhostUser ? 'random' : 'openAI',
   )
+
+  revalidatePath(routes.generator())
 }
 
 const generateAndSaveToDB = async (
   formPromptWords: string[],
   userId: string,
+  clueWordsSource: 'random' | 'openAI',
 ): Promise<void> => {
   const aiClueWords = await getClueWords({
-    source: 'openAI',
+    source: clueWordsSource,
     promptWords: formPromptWords.join(','),
   })
 
@@ -107,10 +98,10 @@ const generateAndSaveToDB = async (
 
 const getDemoModalVisibility = async (): Promise<boolean> => {
   const cookieStore = cookies()
-  const user = await getServerCurrentUser()
+  const { isGhostUser } = await getServerCurrentUser()
 
   const shouldShowDemoModal =
-    !cookieStore.has(DEMO_VERSION_MODAL_SHOWN_COOKIE_NAME) && !user
+    !cookieStore.has(DEMO_VERSION_MODAL_SHOWN_COOKIE_NAME) && isGhostUser
 
   return shouldShowDemoModal
 }
@@ -125,11 +116,9 @@ const saveModalShownCookie = (): void => {
 }
 
 const getGenerationsLimitModalVisibility = async (): Promise<boolean> => {
-  const user = await getServerCurrentUser()
-  const userId = user?.id
-  const userPrompts = userId
-    ? await getUserPromptsFromDB(userId)
-    : getUserPromptsFromCookie()
+  const { user } = await getServerCurrentUser()
+  const userId = user.id
+  const userPrompts = await getUserPrompts(userId)
 
   return userPrompts.length >= FREE_GENERATIONS_LIMIT
 }

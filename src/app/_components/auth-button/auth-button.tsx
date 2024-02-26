@@ -20,11 +20,11 @@ const _AuthButton = async (
 ): Promise<React.ReactElement> => {
   const { className } = props
 
-  const user = await getServerCurrentUser()
+  const { user, isGhostUser } = await getServerCurrentUser()
 
   return (
     <div className={className}>
-      {user && (
+      {!isGhostUser && (
         <DropdownMenu>
           <DropdownMenuTrigger>
             <UserIcon user={user} />
@@ -38,7 +38,7 @@ const _AuthButton = async (
         </DropdownMenu>
       )}
 
-      {!user && <SignInButton />}
+      {isGhostUser && <SignInButton />}
     </div>
   )
 }

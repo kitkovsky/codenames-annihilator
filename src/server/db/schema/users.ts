@@ -4,8 +4,9 @@ import { text, integer, sqliteTable } from 'drizzle-orm/sqlite-core'
 import { prompts } from '@/server/db/schema/prompts'
 import { defaultCreatedAt } from '@/server/db/utils'
 
-export type User = typeof users.$inferSelect
+type User = typeof users.$inferSelect
 export type AuthUser = Omit<User, 'createdAt'>
+export type NewUser = typeof users.$inferInsert
 
 export const users = sqliteTable('user', {
   id: text('id').notNull().primaryKey(),
@@ -13,6 +14,9 @@ export const users = sqliteTable('user', {
   email: text('email').notNull(),
   emailVerified: integer('emailVerified', { mode: 'timestamp_ms' }),
   image: text('image'),
+  ghostUser: integer('ghost_user', { mode: 'boolean' })
+    .notNull()
+    .default(false),
   createdAt: text('created_at').default(defaultCreatedAt).notNull(),
 })
 

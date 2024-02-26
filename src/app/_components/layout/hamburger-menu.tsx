@@ -78,11 +78,11 @@ export const HamburgerMenu = (
 }
 
 const HamburgerMenuFooter = async (): Promise<React.ReactElement> => {
-  const user = await getServerCurrentUser()
+  const { user, isGhostUser } = await getServerCurrentUser()
 
   return (
     <div className="px-6 pb-6">
-      {user && (
+      {user.type !== 'ghost' && (
         <Accordion type="single" collapsible>
           <AccordionItem value="user-profile" className="border-none">
             <AccordionTrigger className="py-0">
@@ -99,7 +99,7 @@ const HamburgerMenuFooter = async (): Promise<React.ReactElement> => {
         </Accordion>
       )}
 
-      {!user && (
+      {isGhostUser && (
         <DialogClose asChild className="w-full">
           <SignInButton />
         </DialogClose>
