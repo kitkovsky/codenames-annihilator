@@ -15,9 +15,8 @@ export default async function middleware(
   const hasGhostUserIdCookie = request.cookies.has(GHOST_USER_ID_COOKIE_NAME)
 
   if (!hasSessionCookie && !hasGhostUserIdCookie) {
-    const uuidv4 = (await import('uuid')).v4
     const date400DaysFromNow = new Date(Date.now() + 400 * 24 * 60 * 60 * 1000)
-    const ghostUserId = uuidv4()
+    const ghostUserId = crypto.randomUUID()
 
     // a cookie set from middleware isn't available on the first render pass in server components,
     // so we're setting it in the headers as well and reading from both places in `getServerCurrentUser()`
