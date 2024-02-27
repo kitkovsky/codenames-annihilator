@@ -72,14 +72,14 @@ const FlashcardTableRow = (props: {
       <TableCell className="pl-2 sm:pl-4">{promptWords}</TableCell>
       <TableCell className="px-2 sm:px-4">{clueWords}</TableCell>
       <TableCell className="px-2 sm:px-4">
-        <span
+        <p
           className={cn(
-            'rounded-lg border-2 px-2 py-1 font-medium',
+            'w-fit rounded-lg border-2 px-2 py-1 font-medium',
             flashcardStateBorder[flashcard.state],
           )}
         >
           {flashcardStateToSentenceCase(flashcard.state)}
-        </span>
+        </p>
       </TableCell>
     </TableRow>
   )
