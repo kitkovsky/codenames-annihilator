@@ -17,29 +17,32 @@ export const StartPracticeButton = (
   props: StartPracticeButtonProps,
 ): React.ReactElement => {
   const { flashcards } = props
-  const [visible, setVisible] = useState(false)
+  const [flashcardsModalVisible, setFlashcardsModalVisible] = useState(false)
 
   return (
     <>
       <Button
-        onClick={() => setVisible(true)}
+        onClick={() => setFlashcardsModalVisible(true)}
         className="text-sm font-semibold sm:text-base"
         disabled={isEmpty(flashcards)}
       >
         Start practising
       </Button>
 
-      <Dialog open={visible}>
+      <Dialog open={flashcardsModalVisible}>
         <DialogContent
           customClose
           noBackground
           className="flex justify-center"
           onInteractOutside={() => {
             revalidateFlashcardsPath()
-            setVisible(false)
+            setFlashcardsModalVisible(false)
           }}
         >
-          <FlashcardsStack flashcards={flashcards} />
+          <FlashcardsStack
+            flashcards={flashcards}
+            closeModal={() => setFlashcardsModalVisible(false)}
+          />
         </DialogContent>
       </Dialog>
     </>

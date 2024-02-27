@@ -5,18 +5,20 @@ import { motion } from 'framer-motion'
 
 import { type Flashcard } from '@/server/db/schema/flashcards'
 import { FlashcardCard } from './flashcard-card'
+import { Button } from '@components/ui/button'
 
 const CARD_OFFSET = 10
 const CARD_SCALE_FACTOR = 0.06
 
 export interface FlashcardsStackProps {
   flashcards: Flashcard[]
+  closeModal: () => void
 }
 
 export const FlashcardsStack = (
   props: FlashcardsStackProps,
 ): React.ReactElement => {
-  const { flashcards } = props
+  const { flashcards, closeModal } = props
   const [animatePop, setAnimatePop] = useState(false)
   const [animateSlide, setAnimateSlide] = useState(false)
 
@@ -54,12 +56,22 @@ export const FlashcardsStack = (
   flashcardsCards.push({
     id: 123,
     content: (
-      <div className="flex h-full flex-col p-4">
-        <h2 className="pb-3 text-2xl font-semibold">Good job!</h2>
-        <h3 className="text-lighter-gray">
-          You've sorted through all the cards. You really do want to be the best
-          at Codenames, don't you?
-        </h3>
+      <div className="flex h-full flex-col justify-between">
+        <div className="p-4">
+          <h2 className="pb-3 text-2xl font-semibold">Good job!</h2>
+          <h3 className="text-lighter-gray">
+            You've sorted through all the cards. You really do want to be the
+            best at Codenames, don't you?
+          </h3>
+        </div>
+
+        <Button
+          onClick={() => closeModal()}
+          variant="ghost"
+          className="min-h-10 w-full rounded rounded-t-none border-2 border-x-0 border-b-0 border-mint-green text-base font-semibold"
+        >
+          Close
+        </Button>
       </div>
     ),
   })

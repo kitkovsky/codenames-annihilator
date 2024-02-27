@@ -48,36 +48,36 @@ export const FlashcardCard = (
         </span>
       </div>
 
-      {flipButtonVisible && (
-        <Button
-          onClick={() => setFlipButtonVisible(false)}
-          variant="ghost"
-          className="min-h-10 w-full rounded rounded-t-none border-2 border-x-0 border-b-0 border-mint-green text-base font-semibold"
-        >
-          Show clues
-        </Button>
-      )}
+      <Button
+        onClick={() => setFlipButtonVisible(false)}
+        variant="ghost"
+        className={cn(
+          'min-h-10 w-full rounded rounded-t-none border-2 border-x-0 border-b-0 border-mint-green text-base font-semibold',
+          { hidden: !flipButtonVisible },
+        )}
+      >
+        Show clues
+      </Button>
 
-      {memoButtonsVisible && (
-        <div className="flex">
-          {memorizationButtons.map(({ label, value, border }) => (
-            <Button
-              onClick={async () => {
-                animateOut()
-                await updateFlashcardState(flashcard.id, value)
-              }}
-              variant="ghost"
-              className={cn(
-                'border-top grow rounded-none border-2 border-x-0 border-b-0 text-base font-semibold hover:bg-black-80',
-                border,
-              )}
-              key={value}
-            >
-              {label}
-            </Button>
-          ))}
-        </div>
-      )}
+      <div className="flex">
+        {memorizationButtons.map(({ label, value, border }) => (
+          <Button
+            onClick={async () => {
+              animateOut()
+              await updateFlashcardState(flashcard.id, value)
+            }}
+            variant="ghost"
+            className={cn(
+              'border-top grow rounded-none border-2 border-x-0 border-b-0 text-base font-semibold hover:bg-black-80',
+              { hidden: !memoButtonsVisible },
+              border,
+            )}
+            key={value}
+          >
+            {label}
+          </Button>
+        ))}
+      </div>
     </div>
   )
 }
