@@ -9,12 +9,12 @@ import { FlashcardCard } from './flashcard-card'
 const CARD_OFFSET = 10
 const CARD_SCALE_FACTOR = 0.06
 
-export interface FlashcardsCarouselProps {
+export interface FlashcardsStackProps {
   flashcards: Flashcard[]
 }
 
 export const FlashcardsStack = (
-  props: FlashcardsCarouselProps,
+  props: FlashcardsStackProps,
 ): React.ReactElement => {
   const { flashcards } = props
   const [animatePop, setAnimatePop] = useState(false)

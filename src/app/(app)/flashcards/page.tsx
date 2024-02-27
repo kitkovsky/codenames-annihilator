@@ -1,6 +1,5 @@
-import { FlashcardsStack } from './flashcards-stack'
 import { FlashcardsTable } from './flashcards-table'
-import { StartPractisingButton } from './start-practising-button'
+import { FlashcardsPracticeModalTrigger } from './flashcards-practice-modal-trigger'
 
 export default function FlashcardsPage(): React.ReactElement {
   return (
@@ -8,9 +7,7 @@ export default function FlashcardsPage(): React.ReactElement {
       <div className="mb-4 flex items-center justify-between">
         <h1 className="text-2xl font-bold sm:text-4xl">Flashcards</h1>
 
-        <StartPractisingButton>
-          <FlashcardsStack />
-        </StartPractisingButton>
+        <FlashcardsPracticeModalTrigger />
       </div>
 
       <FlashcardsTable />

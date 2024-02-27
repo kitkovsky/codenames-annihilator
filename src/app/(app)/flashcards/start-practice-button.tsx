@@ -5,15 +5,18 @@ import { useState } from 'react'
 import { Dialog, DialogContent } from '@components/ui/dialog'
 import { Button } from '@components/ui/button'
 import { revalidateFlashcardsPath } from './actions'
+import type { Flashcard } from '@/server/db/schema/flashcards'
+import { FlashcardsStack } from './flashcards-stack'
+import { isEmpty } from '@utils/array.utils'
 
-export interface StartPractisingButtonProps {
-  children: React.ReactNode
+export interface StartPracticeButtonProps {
+  flashcards: Flashcard[]
 }
 
-export const StartPractisingButton = (
-  props: StartPractisingButtonProps,
+export const StartPracticeButton = (
+  props: StartPracticeButtonProps,
 ): React.ReactElement => {
-  const { children } = props
+  const { flashcards } = props
   const [visible, setVisible] = useState(false)
 
   return (
@@ -21,9 +24,11 @@ export const StartPractisingButton = (
       <Button
         onClick={() => setVisible(true)}
         className="text-sm font-semibold sm:text-base"
+        disabled={isEmpty(flashcards)}
       >
         Start practising
       </Button>
+
       <Dialog open={visible}>
         <DialogContent
           customClose
@@ -34,7 +39,7 @@ export const StartPractisingButton = (
             setVisible(false)
           }}
         >
-          {children}
+          <FlashcardsStack flashcards={flashcards} />
         </DialogContent>
       </Dialog>
     </>

@@ -17,21 +17,31 @@ import {
 } from '@utils/flashcards.utils'
 import { cn } from '@utils/cn.utils'
 import { Skeleton } from '@components/ui/skeleton'
-import { range } from '@utils/array.utils'
+import { isEmpty, range } from '@utils/array.utils'
 
 const _FlashcardsTable = async (): Promise<React.ReactElement> => {
   const { user } = await getServerCurrentUser()
   const flashcards = await getUserFlashcards(user.id)
 
   return (
-    <Table>
-      <PromptCluesTableHeader />
-      <TableBody>
-        {flashcards.map((card) => (
-          <FlashcardTableRow flashcard={card} key={card.id} />
-        ))}
-      </TableBody>
-    </Table>
+    <>
+      <Table>
+        <PromptCluesTableHeader />
+        <TableBody>
+          {flashcards.map((card) => (
+            <FlashcardTableRow flashcard={card} key={card.id} />
+          ))}
+        </TableBody>
+      </Table>
+
+      {isEmpty(flashcards) && (
+        <div className="mt-6 flex justify-center">
+          <span className="text-sm text-muted-foreground">
+            No flashcards to display, go generate some
+          </span>
+        </div>
+      )}
+    </>
   )
 }
 
