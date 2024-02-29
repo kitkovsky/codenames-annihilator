@@ -6,6 +6,7 @@ import { motion } from 'framer-motion'
 import { type Flashcard } from '@/server/db/schema/flashcards'
 import { FlashcardCard } from './flashcard-card'
 import { Button } from '@components/ui/button'
+import { revalidateFlashcardsPath } from '../actions'
 
 const CARD_OFFSET = 10
 const CARD_SCALE_FACTOR = 0.06
@@ -66,7 +67,10 @@ export const FlashcardsStack = (
         </div>
 
         <Button
-          onClick={() => closeModal()}
+          onClick={() => {
+            revalidateFlashcardsPath()
+            closeModal()
+          }}
           variant="ghost"
           className="min-h-10 w-full rounded rounded-t-none border-2 border-x-0 border-b-0 border-mint-green text-base font-semibold"
         >
