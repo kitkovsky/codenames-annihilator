@@ -35,6 +35,9 @@ jobs:
       - name: Pull env vars from vercel
         run: vercel env pull --environment=production --token=${{ secrets.VERCEL_TOKEN }} .env
 
+      - name: Run prettier and eslint
+        run: pnpm lint
+
       - name: Update DB schema
         run: pnpm db:push
 
