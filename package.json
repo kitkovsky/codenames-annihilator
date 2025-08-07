@@ -8,6 +8,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint && prettier --check .",
+    "prettier:write": "prettier --write .",
+    "prettier:check": "prettier --check .",
     "db:push": "drizzle-kit push:sqlite",
     "db:studio": "drizzle-kit studio"
   },

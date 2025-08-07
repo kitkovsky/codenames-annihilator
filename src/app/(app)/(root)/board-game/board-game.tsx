@@ -57,7 +57,7 @@ const Card = (props: Card): React.ReactElement => {
         <div className="absolute h-full w-full rounded bg-gray-100 [backface-visibility:hidden]" />
         <div
           className={cn(
-            'absolute h-full w-full rounded [transform:rotateY(180deg)] [backface-visibility:hidden]',
+            'absolute h-full w-full rounded [backface-visibility:hidden] [transform:rotateY(180deg)]',
             { 'bg-blue': color === 'blue' },
             { 'bg-red': color === 'red' },
           )}
