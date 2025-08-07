@@ -37,17 +37,14 @@ export const getClueWords = async (
   if (source === 'random') {
     await Promise.all(
       range(5).map(async () => {
-        const res = await fetch(
-          'https://api.api-ninjas.com/v1/randomword?type=noun',
-          {
-            headers: {
-              'X-Api-Key': env.API_NINJAS_API_KEY,
-            },
+        const res = await fetch('https://api.api-ninjas.com/v1/randomword', {
+          headers: {
+            'X-Api-Key': env.API_NINJAS_API_KEY,
           },
-        )
+        })
 
-        const json = (await res.json()) as { word: string }
-        clueWords.push(json.word)
+        const json = (await res.json()) as { word: string[] }
+        clueWords.push(json.word.pop() ?? 'foo')
       }),
     )
   }
